@@ -1,0 +1,10 @@
+.routerView {
+  margin: 0;
+  flex: unset;
+}
+
+.routerView[role="main"] {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}

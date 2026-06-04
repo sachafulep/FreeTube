@@ -351,3 +351,4 @@ const settingsTitle = computed(() => {
 </script>
 
 <style scoped src="./SideNav.css" />
+<style scoped src="./SideNav2.css" />

@@ -296,3 +296,4 @@ function focusTab(event, focusedTab) {
 </script>
 
 <style scoped src="./Subscriptions.css" />
+<style scoped src="./Subscriptions2.css" />

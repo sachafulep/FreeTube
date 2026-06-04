@@ -8,3 +8,4 @@
 
 <script src="./ft-card.js" />
 <style scoped src="./ft-card.css" />
+<style scoped src="./ft-card2.css" />

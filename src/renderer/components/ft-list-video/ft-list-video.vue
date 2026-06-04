@@ -274,3 +274,4 @@
 
 <script src="./ft-list-video.js" />
 <style scoped src="./ft-list-video.scss" lang="scss" />
+<style scoped src="./ft-list-video2.scss" lang="scss" />

@@ -19,3 +19,4 @@ defineProps({
 </script>
 
 <style scoped src="./FtAutoGrid.css" />
+<style scoped src="./FtAutoGrid2.css" />

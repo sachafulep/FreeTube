@@ -518,3 +518,4 @@ defineExpose({
 </script>
 
 <style scoped src="./FtInput.css" />
+<style scoped src="./FtInput2.css" />

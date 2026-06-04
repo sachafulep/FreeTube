@@ -726,3 +726,4 @@ function handleDragStart(event) {
 
 <style src="./themes.css" />
 <style scoped src="./App.css" />
+<style scoped src="./App2.css" />

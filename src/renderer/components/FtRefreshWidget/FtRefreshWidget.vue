@@ -61,3 +61,4 @@ function click() {
 </script>
 
 <style scoped lang="scss" src="./FtRefreshWidget.scss" />
+<style scoped lang="scss" src="./FtRefreshWidget2.scss" />

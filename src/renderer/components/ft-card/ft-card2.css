@@ -1,0 +1,9 @@
+.ft-card {
+  margin: 0 !important;
+  padding: 0;
+  background-color: transparent;
+}
+
+.ft-card :deep(h2) {
+  display: none !important;
+}

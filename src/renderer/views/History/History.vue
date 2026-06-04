@@ -307,3 +307,4 @@ function filterVideosWithQuery(videos, query, attrProcessor = identity) {
 </script>
 
 <style scoped src="./History.css" />
+<style scoped src="./History2.css" />

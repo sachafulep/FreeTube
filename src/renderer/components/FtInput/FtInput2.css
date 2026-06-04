@@ -1,0 +1,33 @@
+.ft-input {
+  padding: 0 !important;
+  margin: 0 !important;
+  block-size: unset;
+  background-color: transparent;
+}
+
+.inputWrapper {
+  padding: 8px 8px 4px 16px;
+  height: 100%;
+  display: flex;
+  background-color: var(--search-bar-color);
+  gap: 10px;
+  align-items: center;
+  border-radius: 5px;
+}
+
+.inputAction {
+  margin: 0;
+  padding: 0;
+  inset-block-start: 0;
+  position: relative;
+  width: 36px;
+  height: 36px;
+}
+
+.clearInputTextButton {
+  display: none;
+}
+
+.ft-input-component.search.showClearTextButton {
+  padding-inline-start: 0;
+}

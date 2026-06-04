@@ -1,0 +1,13 @@
+.topNav {
+  display: flex;
+  justify-content: center;
+  block-size: unset;
+  line-height: unset;
+  box-shadow: none;
+  background-color: transparent;
+  padding: 10px 0;
+}
+
+.side, .navFilterButton {
+  display: none;
+}
