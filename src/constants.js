@@ -146,6 +146,7 @@ const KeyboardShortcuts = {
       NAVIGATE_TO_SETTINGS: 'ctrl+,',
       NAVIGATE_TO_HISTORY: 'ctrl+H',
       NAVIGATE_TO_HISTORY_MAC: 'cmd+Y',
+      NAVIGATE_TO_SUBSCRIPTIONS: 'ctrl+S',
       NEW_WINDOW: 'ctrl+N',
       MINIMIZE_WINDOW: 'ctrl+M',
       CLOSE_WINDOW: 'ctrl+W',

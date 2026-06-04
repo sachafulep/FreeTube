@@ -2434,6 +2434,7 @@ function runApp() {
         submenu: [
           {
             label: 'Subscriptions',
+            accelerator: KeyboardShortcuts.APP.GENERAL.NAVIGATE_TO_SUBSCRIPTIONS,
             click: (_menuItem, browserWindow, _event) => {
               navigateTo('/subscriptions', browserWindow)
             },
