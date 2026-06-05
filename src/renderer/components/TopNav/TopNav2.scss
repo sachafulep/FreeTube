@@ -4,9 +4,10 @@
   block-size: unset;
   line-height: unset;
   box-shadow: none;
-  background-color: transparent;
-  padding: 14px 0 0 0;
-  margin-bottom: 36px;
+  background-color: rgb(33 33 33 / 70%);
+  backdrop-filter: blur(16px);
+  padding: 14px 0 14px 0;
+  margin-bottom: 22px;
 }
 
 .side, .navFilterButton {
