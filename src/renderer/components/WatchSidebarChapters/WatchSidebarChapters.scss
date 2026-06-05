@@ -1,0 +1,58 @@
+.sidebarChapters {
+  background-color: #212121;
+  margin-bottom: 16px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.sidebarChaptersList {
+  display: flex;
+  flex-direction: column;
+  max-height: 480px;
+  overflow-y: auto;
+}
+
+.sidebarChapter {
+  padding: 12px;
+  display: flex;
+  align-items: start;
+  gap: 16px;
+  cursor: pointer;
+
+  &:hover, &.active {
+    background-color: #373737;
+  }
+}
+
+.sidebarChapterThumbnail {
+  inline-size: 100px;
+  border-radius: 4px;
+  flex-shrink: 0;
+  object-fit: cover;
+}
+
+.sidebarChapterInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.sidebarChapterTitle {
+  font-size: 15px;
+  overflow: hidden;
+  display: -webkit-box;
+  line-clamp: 2;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.sidebarChapterTimestamp {
+  background: #263850;
+  color: #3ca0f7;
+  border-radius: 2px;
+  padding: 4px 8px;
+  font-size: 12px;
+  white-space: nowrap;
+  align-self: flex-start;
+}

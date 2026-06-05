@@ -49,6 +49,7 @@
           @timeupdate="updateCurrentChapter"
           @ended="handleVideoEnded"
           @toggle-theatre-mode="useTheatreMode = !useTheatreMode"
+          @toggle-sidebar-chapters="toggleSidebarChapters"
           @toggle-autoplay="toggleAutoplay"
           @playback-rate-updated="updatePlaybackRate"
           @skip-to-next="handleSkipToNext"
@@ -192,6 +193,13 @@
       v-if="(isFamilyFriendly || !showFamilyFriendlyOnly)"
       class="sidebarArea"
     >
+      <watch-sidebar-chapters
+        v-if="!isLoading && videoChapters.length > 0"
+        v-show="showSidebarChapters"
+        :chapters="videoChapters"
+        :current-chapter-index="videoCurrentChapterIndex"
+        @timestamp-event="changeTimestamp"
+      />
       <watch-video-live-chat
         v-if="!isLoading && !hideLiveChat && (isLive || isUpcoming)"
         :live-chat="liveChat"

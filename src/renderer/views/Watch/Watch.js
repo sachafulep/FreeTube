@@ -7,6 +7,7 @@ import FtLoader from '../../components/FtLoader/FtLoader.vue'
 import FtShakaVideoPlayer from '../../components/ft-shaka-video-player/ft-shaka-video-player.vue'
 import WatchVideoInfo from '../../components/WatchVideoInfo/WatchVideoInfo.vue'
 import WatchVideoChapters from '../../components/WatchVideoChapters/WatchVideoChapters.vue'
+import WatchSidebarChapters from '../../components/WatchSidebarChapters/WatchSidebarChapters.vue'
 import WatchVideoDescription from '../../components/WatchVideoDescription/WatchVideoDescription.vue'
 import CommentSection from '../../components/CommentSection/CommentSection.vue'
 import WatchVideoLiveChat from '../../components/WatchVideoLiveChat/WatchVideoLiveChat.vue'
@@ -63,6 +64,7 @@ export default defineComponent({
     'ft-shaka-video-player': FtShakaVideoPlayer,
     'watch-video-info': WatchVideoInfo,
     'watch-video-chapters': WatchVideoChapters,
+    'watch-sidebar-chapters': WatchSidebarChapters,
     'watch-video-description': WatchVideoDescription,
     CommentSection,
     'watch-video-live-chat': WatchVideoLiveChat,
@@ -164,6 +166,7 @@ export default defineComponent({
       /** @type {Date|null} */
       streamingDataExpiryDate: null,
       currentPlaybackRate: null,
+      showSidebarChapters: false,
     }
   },
   computed: {
@@ -336,6 +339,9 @@ export default defineComponent({
     this.onMountedDependOnLocalStateLoading()
   },
   methods: {
+    toggleSidebarChapters() {
+      this.showSidebarChapters = !this.showSidebarChapters
+    },
     async reloadView() {
       await this.handleRouteChange()
 

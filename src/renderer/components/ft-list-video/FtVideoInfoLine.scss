@@ -2,8 +2,9 @@
   font-size: smaller !important;
   color: #aaaaaa !important;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 6px;
+  gap: 4px 6px;
 
   svg {
     font-size: x-small;
@@ -14,4 +15,16 @@
 .channelName {
   color: #aaaaaa !important;
   text-decoration: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.infoStats {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  flex-shrink: 0;
 }

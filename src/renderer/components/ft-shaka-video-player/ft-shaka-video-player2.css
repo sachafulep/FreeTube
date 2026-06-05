@@ -1,3 +1,7 @@
 .player {
   border-radius: 10px;
 }
+
+:deep(.ft-chapter-name-button) {
+  width: fit-content;
+}

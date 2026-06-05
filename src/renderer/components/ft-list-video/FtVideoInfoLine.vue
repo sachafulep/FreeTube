@@ -10,20 +10,23 @@
     </router-link>
     <bdi
       v-else-if="channelName !== null"
+      class="channelName"
       dir="auto"
     >
       {{ channelName }}
     </bdi>
 
-    <template v-if="viewCount != null">
-      <font-awesome-icon :icon="['fas', 'play']" />
-      <span class="viewCount">{{ compactViewCount }}</span>
-    </template>
+    <span class="infoStats">
+      <template v-if="viewCount != null">
+        <font-awesome-icon :icon="['fas', 'play']" />
+        <span class="viewCount">{{ compactViewCount }}</span>
+      </template>
 
-    <span
-      v-if="uploadedTimeDisplay !== ''"
-      class="uploadedTime"
-    >{{ uploadedTimeDisplay }}</span>
+      <span
+        v-if="uploadedTimeDisplay !== ''"
+        class="uploadedTime"
+      >{{ uploadedTimeDisplay }}</span>
+    </span>
   </div>
 </template>
 

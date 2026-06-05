@@ -12,6 +12,7 @@ import { StatsButton } from './player-components/StatsButton'
 import { TheatreModeButton } from './player-components/TheatreModeButton'
 import { AutoplayToggle } from './player-components/AutoplayToggle'
 import { SkipButton } from './player-components/SkipButton'
+import { ChapterNameButton } from './player-components2/ChapterNameButton'
 import {
   deduplicateAudioTracks,
   findMostSimilarAudioBandwidth,
@@ -175,6 +176,7 @@ export default defineComponent({
     'skip-to-next',
     'skip-to-prev',
     'player-reload-requested',
+    'toggle-sidebar-chapters',
   ],
   setup: function (props, { emit, expose }) {
     const { locale, t } = useI18n()
@@ -791,6 +793,7 @@ export default defineComponent({
         'mute',
         'volume',
         'time_and_duration',
+        ...(props.chapters.length > 0 ? ['ft_chapter_name'] : []),
         'spacer'
       ]
       const controlPanelElementsWithSkipButtons = [
@@ -1043,6 +1046,14 @@ export default defineComponent({
     watch(uiConfig, (newValue, oldValue) => {
       if (newValue !== oldValue && ui) {
         configureUI()
+      }
+    })
+
+    watch(() => props.currentChapterIndex, (index) => {
+      if (props.chapters[index]) {
+        events.dispatchEvent(new CustomEvent('chapterChanged', {
+          detail: { title: props.chapters[index].title }
+        }))
       }
     })
 
@@ -1964,6 +1975,20 @@ export default defineComponent({
       shakaOverflowMenu.registerElement('ft_skip_previous', new SkipPreviousButtonFactory())
     }
 
+    function registerChapterNameButton() {
+      events.addEventListener('toggleSidebarChapters', () => {
+        emit('toggle-sidebar-chapters')
+      })
+
+      class ChapterNameButtonFactory {
+        create(rootElement, controls) {
+          return new ChapterNameButton(events, rootElement, controls)
+        }
+      }
+
+      shakaControls.registerElement('ft_chapter_name', new ChapterNameButtonFactory())
+    }
+
     /**
      * As shaka-player doesn't let you unregister custom control factories,
      * overwrite them with `null` instead so the referenced objects
@@ -1995,6 +2020,8 @@ export default defineComponent({
 
       shakaControls.registerElement('ft_skip_previous', null)
       shakaOverflowMenu.registerElement('ft_skip_previous', null)
+
+      shakaControls.registerElement('ft_chapter_name', null)
     }
 
     // #endregion custom player controls
@@ -2743,6 +2770,7 @@ export default defineComponent({
       registerLegacyQualitySelection()
       registerStatsButton()
       registerSkipButtons()
+      registerChapterNameButton()
 
       if (ui.isMobile()) {
         onlyUseOverFlowMenu.value = true
