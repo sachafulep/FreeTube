@@ -3,7 +3,7 @@
 }
 
 .videoArea {
-  margin: 0 16px 0 24px;
+  margin-bottom: 10px;
 }
 
 .videoPlayer {
@@ -11,9 +11,14 @@
 }
 
 .sidebarArea {
-  width: 400px;
+  margin-left: 16px;
 }
 
-.infoArea {
-  margin: 10px 16px 0 24px;
+.videoLayout {
+  padding: 0 24px 24px 24px;
+  grid-template-columns: 1fr 1fr 400px;
+
+  @media only screen and (width <= 1050px) {
+    grid-template-columns: auto;
+  }
 }
