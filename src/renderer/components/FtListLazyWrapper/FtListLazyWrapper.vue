@@ -348,3 +348,4 @@ const videoData = {
 </script>
 
 <style scoped src="./FtListLazyWrapper.css" />
+<style scoped src="./FtListLazyWrapper2.css" />

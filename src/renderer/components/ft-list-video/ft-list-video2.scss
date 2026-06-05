@@ -1,3 +1,40 @@
 .ft-list-item {
   padding: 0 !important;
 }
+
+.videoThumbnail {
+  padding: 0 !important;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+
+.videoThumbnail, .thumbnailImage {
+  border-radius: 12px;
+}
+
+.videoDuration {
+  margin: 6px !important;
+  font-size: small !important;
+  font-weight: 600 !important;
+  z-index: 2;
+  background-color: #151515 !important;
+}
+
+.h3Title {
+  font-size: medium;
+  font-weight: 600;
+}
+
+.infoLine {
+  font-size: smaller !important;
+  color: #aaaaaa !important;
+
+  a {
+    color: #aaaaaa !important;
+    text-decoration: none;
+  }
+}
+
+.playlistIcons, .videoWatched {
+  display: none !important;
+}

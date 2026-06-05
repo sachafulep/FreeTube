@@ -31,3 +31,36 @@
 .ft-input-component.search.showClearTextButton {
   padding-inline-start: 0;
 }
+
+.list {
+  box-shadow: none;
+  margin-top: 8px;
+  border-radius: 10px;
+  padding: 10px;
+  width: 420px !important;
+
+  li {
+    padding: 12px 10px;
+    border-radius: 6px;
+    line-height: unset;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .hover {
+    background-color: rgb(62, 62, 62);
+  }
+}
+
+.optionWrapper {
+  align-items: center;
+  gap: 10px;
+}
+
+.searchResultIcon {
+  padding: 0;
+}
+
+.removeButton {
+  margin-top: 4px;
+}

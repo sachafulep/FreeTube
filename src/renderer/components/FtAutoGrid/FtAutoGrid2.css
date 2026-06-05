@@ -1,3 +1,5 @@
 .grid {
   width: 80vw;
+  column-gap: 16px;
+  row-gap: 30px;
 }
