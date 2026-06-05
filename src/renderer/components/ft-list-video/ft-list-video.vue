@@ -142,34 +142,13 @@
           {{ displayTitle }}
         </h3>
       </router-link>
-      <div class="infoLine">
-        <router-link
-          v-if="channelId !== null"
-          class="channelName"
-          dir="auto"
-          :to="`/channel/${channelId}`"
-        >
-          {{ channelName }}
-        </router-link>
-        <bdi v-else-if="channelName !== null">
-          {{ channelName }}
-        </bdi>
-        <span
-          v-if="!isLive && !isUpcoming && !isPremium && !hideViews && viewCount != null"
-          class="viewCount"
-        >
-          <template v-if="channelId !== null || channelName !== null"> • </template>
-          {{ $t('Global.Counts.View Count', {count: parsedViewCount}, viewCount) }}
-        </span>
-        <span
-          v-if="uploadedTime !== '' && !isLive"
-          class="uploadedTime"
-        > • {{ uploadedTime }}</span>
-        <span
-          v-if="isLive && !hideViews"
-          class="viewCount"
-        > • {{ $t('Global.Counts.Watching Count', {count: parsedViewCount}, viewCount) }}</span>
-      </div>
+      <ft-video-info-line
+        :channelId="channelId"
+        :channelName="channelName"
+        :viewCount="viewCount"
+        :published="published"
+        :uploadedTime="uploadedTime"
+      />
       <div
         v-if="is4k || hasCaptions || is8k || isNew || isVr180 || isVr360 || is3D"
         class="videoTagLine"

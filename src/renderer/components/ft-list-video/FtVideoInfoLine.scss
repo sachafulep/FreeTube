@@ -1,0 +1,17 @@
+.infoLine {
+  font-size: smaller !important;
+  color: #aaaaaa !important;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  svg {
+    font-size: x-small;
+    padding-bottom: 2px;
+  }
+}
+
+.channelName {
+  color: #aaaaaa !important;
+  text-decoration: none;
+}

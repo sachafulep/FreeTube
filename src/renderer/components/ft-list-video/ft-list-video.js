@@ -1,5 +1,6 @@
 import { defineComponent } from 'vue'
 import FtIconButton from '../FtIconButton/FtIconButton.vue'
+import FtVideoInfoLine from './FtVideoInfoLine.vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { mapActions } from 'vuex'
 import {
@@ -22,6 +23,7 @@ export default defineComponent({
   components: {
     'ft-icon-button': FtIconButton,
     'ft-awesome-icon': FontAwesomeIcon,
+    'ft-video-info-line': FtVideoInfoLine,
   },
   directives: {
     'safer-html': vSaferHtml
