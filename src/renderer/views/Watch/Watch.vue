@@ -171,6 +171,8 @@
         :description="videoDescription"
         :description-html="videoDescriptionHtml"
         :license="license"
+        :published="videoPublished"
+        :view-count="videoViewCount"
         class="watchVideo"
         :class="{ theatreWatchVideo: useTheatreMode }"
         @timestamp-event="changeTimestamp"
@@ -228,3 +230,4 @@
 
 <script src="./Watch.js" />
 <style scoped src="./Watch.scss" lang="scss" />
+<style scoped src="./Watch2.scss" lang="scss" />

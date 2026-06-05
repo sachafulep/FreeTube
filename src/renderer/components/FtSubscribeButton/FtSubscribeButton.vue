@@ -316,3 +316,4 @@ function isProfileSubscribed(profile) {
 </script>
 
 <style scoped src="./FtSubscribeButton.css" />
+<style scoped src="./FtSubscribeButton2.css" />

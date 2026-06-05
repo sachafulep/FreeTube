@@ -1,129 +1,12 @@
 <template>
   <FtCard class="watchVideoInfo">
-    <div>
-      <h1
-        class="videoTitle"
-        dir="auto"
-      >
-        {{ title }}
-      </h1>
-      <div
-        v-if="isUnlisted"
-        class="unlistedBadge"
-      >
-        {{ t('Video.Unlisted') }}
-      </div>
-    </div>
-    <div class="videoMetrics">
-      <div class="datePublishedAndViewCount">
-        {{ publishedString }} {{ dateString }}
-        <template
-          v-if="!hideVideoViews"
-        >
-          <span class="seperator">• </span><span class="videoViews">{{ parsedViewCount }}</span>
-        </template>
-      </div>
-      <div
-        v-if="!hideVideoLikesAndDislikes"
-        class="likeBarContainer"
-      >
-        <div
-          class="likeSection"
-        >
-          <span class="likeCount"><FontAwesomeIcon :icon="['fas', 'thumbs-up']" /> {{ parsedLikeCount }}</span>
-        </div>
-      </div>
-    </div>
-    <div class="videoButtons">
-      <div
-        class="profileRow"
-      >
-        <div
-          v-if="!hideUploader"
-        >
-          <RouterLink
-            :to="`/channel/${channelId}`"
-          >
-            <img
-              :src="channelThumbnail"
-              class="channelThumbnail"
-              alt=""
-            >
-          </RouterLink>
-        </div>
-        <div>
-          <div
-            v-if="!hideUploader"
-          >
-            <RouterLink
-              :to="`/channel/${channelId}`"
-              class="channelName"
-              dir="auto"
-            >
-              {{ channelName }}
-            </RouterLink>
-          </div>
-          <FtSubscribeButton
-            v-if="!hideUnsubscribeButton"
-            :channel-id="channelId"
-            :channel-name="channelName"
-            :channel-thumbnail="channelThumbnail"
-            :subscription-count-text="subscriptionCountText"
-          />
-        </div>
-      </div>
-      <div class="videoOptions">
-        <span class="videoOptionsMobileRow">
-          <FtIconButton
-            v-if="showPlaylists && !isUpcoming"
-            :title="t('User Playlists.Add to Playlist')"
-            :icon="['fas', 'plus']"
-            theme="base"
-            @click="togglePlaylistPrompt"
-          />
-          <FtIconButton
-            v-if="isQuickBookmarkEnabled"
-            :title="quickBookmarkIconText"
-            :icon="isInQuickBookmarkPlaylist ? ['fas', 'check'] : ['fas', 'bookmark']"
-            class="quickBookmarkVideoIcon"
-            :class="{
-              bookmarked: isInQuickBookmarkPlaylist,
-            }"
-            :theme="quickBookmarkIconTheme"
-            @click="toggleQuickBookmarked"
-          />
-          <FtIconButton
-            v-if="canSaveWatchedProgress && watchedProgressSavingInSemiAutoMode"
-            :title="t('Video.Save Watched Progress')"
-            :icon="['fas', 'bars-progress']"
-            @click="saveWatchedProgressManually"
-          />
-        </span>
-        <span class="videoOptionsMobileRow">
-          <FtIconButton
-            v-if="USING_ELECTRON && externalPlayer !== ''"
-            :title="t('Video.External Player.OpenInTemplate', { externalPlayer })"
-            :icon="['fas', 'external-link-alt']"
-            theme="secondary"
-            @click="handleExternalPlayer"
-          />
-          <FtIconButton
-            v-if="!isUpcoming"
-            :title="t('Change Format.Change Media Formats')"
-            theme="secondary"
-            :icon="['fas', 'file-video']"
-            :dropdown-options="formatTypeOptions"
-            @click="changeFormat"
-          />
-          <FtShareButton
-            v-if="!hideSharingActions"
-            :id="id"
-            :get-timestamp="getTimestamp"
-            :playlist-id="playlistId"
-          />
-        </span>
-      </div>
-    </div>
+    <WatchVideoInfoHeader
+      :title="title"
+      :channelId="channelId"
+      :channelName="channelName"
+      :channelThumbnail="channelThumbnail"
+      :subscriptionCountText="subscriptionCountText"
+    />
   </FtCard>
 </template>
 
@@ -136,6 +19,7 @@ import FtCard from '../ft-card/ft-card.vue'
 import FtIconButton from '../FtIconButton/FtIconButton.vue'
 import FtShareButton from '../FtShareButton/FtShareButton.vue'
 import FtSubscribeButton from '../FtSubscribeButton/FtSubscribeButton.vue'
+import WatchVideoInfoHeader from './WatchVideoInfoHeader.vue'
 
 import store from '../../store'
 
@@ -497,3 +381,4 @@ function removeFromQuickBookmarkPlaylist() {
 </script>
 
 <style scoped src="./WatchVideoInfo.css" />
+<style scoped src="./WatchVideoInfo2.css" />

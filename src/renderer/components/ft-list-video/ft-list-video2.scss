@@ -1,3 +1,12 @@
+@mixin is-sidebar-item {
+  @at-root {
+    .watchPlaylistItem#{&},
+    .recommendation#{&} {
+      @content;
+    }
+  }
+}
+
 .ft-list-item {
   padding: 0 !important;
 }
@@ -8,8 +17,14 @@
   overflow: hidden;
 }
 
+@include is-sidebar-item {
+  .videoThumbnail {
+    margin-bottom: 0;
+  }
+}
+
 .videoThumbnail, .thumbnailImage {
-  border-radius: 12px;
+  border-radius: 8px;
 }
 
 .videoDuration {

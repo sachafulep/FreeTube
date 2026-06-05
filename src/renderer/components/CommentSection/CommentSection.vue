@@ -859,3 +859,4 @@ async function getPostCommentRepliesInvidious(index) {
 </script>
 
 <style scoped src="./CommentSection.css" />
+<style scoped src="./CommentSection2.css" />

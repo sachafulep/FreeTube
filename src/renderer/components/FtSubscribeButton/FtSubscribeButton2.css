@@ -1,0 +1,13 @@
+.buttonList {
+  margin: 0;
+  background-color: transparent !important;
+}
+
+.subscribeButton {
+  background-color: white !important;
+  border: none;
+  color: black !important;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 20px;
+}

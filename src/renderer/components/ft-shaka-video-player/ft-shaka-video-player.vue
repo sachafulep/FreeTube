@@ -130,3 +130,4 @@
 
 <style src="shaka-player/dist/controls.css" />
 <style scoped src="./ft-shaka-video-player.css" />
+<style scoped src="./ft-shaka-video-player2.css" />

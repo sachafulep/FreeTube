@@ -2,6 +2,7 @@
   margin: 0 !important;
   padding: 0;
   background-color: transparent;
+  box-shadow: none;
 }
 
 .ft-card :deep(h2) {

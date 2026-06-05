@@ -3,17 +3,11 @@
     v-if="shownDescription.length > 0"
     :class="{ videoDescription: true, short: !showFullDescription }"
   >
-    <span
-      v-if="showControls && !showFullDescription"
-      class="descriptionStatus"
-      role="button"
-      tabindex="0"
-      @click="expandDescription"
-      @keydown.space.prevent="expandDescription"
-      @keydown.enter.prevent="expandDescription"
-    >
-      {{ $t("Description.Expand Description") }}
-    </span>
+    <WatchVideoDescriptionMeta
+      v-if="published"
+      :published="published"
+      :view-count="viewCount"
+    />
     <FtTimestampCatcher
       ref="descriptionContainer"
       class="description"
@@ -30,14 +24,24 @@
     </bdi>
     <span
       v-if="showControls && showFullDescription"
-      class="descriptionStatus"
-      role="button"
+      :class="{ descriptionStatus: true, open: showFullDescription }"      role="button"
       tabindex="0"
       @click="collapseDescription"
       @keydown.space.prevent="collapseDescription"
       @keydown.enter.prevent="collapseDescription"
     >
       {{ $t("Description.Collapse Description") }}
+    </span>
+    <span
+      v-if="showControls && !showFullDescription"
+      class="descriptionStatus"
+      role="button"
+      tabindex="0"
+      @click="expandDescription"
+      @keydown.space.prevent="expandDescription"
+      @keydown.enter.prevent="expandDescription"
+    >
+      {{ $t("Description.Expand Description") }}
     </span>
   </FtCard>
 </template>
@@ -48,6 +52,7 @@ import autolinker from 'autolinker'
 import { onMounted, ref, computed, useTemplateRef } from 'vue'
 import FtCard from '../ft-card/ft-card.vue'
 import FtTimestampCatcher from '../FtTimestampCatcher.vue'
+import WatchVideoDescriptionMeta from './WatchVideoDescriptionMeta.vue'
 
 const props = defineProps({
   description: {
@@ -61,7 +66,15 @@ const props = defineProps({
   license: {
     type: String,
     default: null,
-  }
+  },
+  published: {
+    type: Number,
+    default: null,
+  },
+  viewCount: {
+    type: Number,
+    default: null,
+  },
 })
 
 const emit = defineEmits(['timestamp-event'])
@@ -186,3 +199,4 @@ function processDescriptionHtml(descriptionText, tabIndex) {
 </script>
 
 <style scoped src="./WatchVideoDescription.css" />
+<style src="./WatchVideoDescription2.css" />

@@ -39,3 +39,4 @@ function pausePlayer() {
 </script>
 
 <style scoped src="./WatchVideoRecommendations.css" />
+<style scoped src="./WatchVideoRecommendations2.css" />

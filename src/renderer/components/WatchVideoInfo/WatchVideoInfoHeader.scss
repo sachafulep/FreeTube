@@ -1,0 +1,44 @@
+.watchVideoInfoHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 14px;
+
+  .videoTitle {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .channelBlock {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .channelThumbnail {
+    border-radius: 50%;
+    width: 48px;
+    display: block;
+  }
+
+  .channelInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    margin-right: 24px;
+  }
+
+  .channelName {
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    color: white !important;
+  }
+
+  .subscriberCount {
+    font-size: 13px;
+    color: #aaaaaa;
+  }
+}

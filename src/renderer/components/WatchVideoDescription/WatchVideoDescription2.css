@@ -1,0 +1,30 @@
+.videoDescription {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    border-radius: 12px;
+    padding: 14px !important;
+    max-height: none !important;
+}
+
+.videoDescription.short .description {
+  max-height: 54px !important;
+}
+
+.description {
+    margin: 0;
+    font-size: 15px !important;
+}
+
+.descriptionStatus {
+    text-decoration: none !important;
+    margin-top: 4px !important;
+    position: initial !important;
+    background: none !important;
+    padding: 0 !important;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.descriptionStatus.open {
+    margin-top: 36px !important;
+}
+
