@@ -145,3 +145,4 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped src="./FtToast.css" />
+<style scoped src="./FtToast2.css" />

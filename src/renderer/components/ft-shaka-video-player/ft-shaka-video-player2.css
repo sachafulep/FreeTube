@@ -2,6 +2,13 @@
   border-radius: 10px;
 }
 
+:deep(.playerFullscreenTitleOverlay) {
+  text-shadow: 0 0 3px #000;
+  font-weight: 700;
+  font-size: 20px;
+  margin: 18px 20px;
+}
+
 :deep(.ft-chapter-name-button) {
   width: fit-content;
 }

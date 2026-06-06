@@ -1982,7 +1982,8 @@ export default defineComponent({
 
       class ChapterNameButtonFactory {
         create(rootElement, controls) {
-          return new ChapterNameButton(events, rootElement, controls)
+          const initialTitle = props.chapters[props.currentChapterIndex]?.title ?? ''
+          return new ChapterNameButton(events, rootElement, controls, initialTitle)
         }
       }
 

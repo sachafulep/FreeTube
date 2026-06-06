@@ -1,13 +1,14 @@
 import shaka from 'shaka-player'
 
 export class ChapterNameButton extends shaka.ui.Element {
-  constructor(events, parent, controls) {
+  constructor(events, parent, controls, initialTitle = '') {
     super(parent, controls)
 
     this.button_ = document.createElement('button')
     this.button_.classList.add('ft-chapter-name-button')
 
     this.nameSpan_ = document.createElement('span')
+    this.nameSpan_.textContent = initialTitle
     this.button_.appendChild(this.nameSpan_)
     this.parent.appendChild(this.button_)
 
