@@ -9,6 +9,10 @@
 
 .ft-list-item {
   padding: 0 !important;
+
+  &.watched {
+    background-color: transparent;
+  }
 }
 
 .videoThumbnail {
