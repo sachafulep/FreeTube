@@ -14,6 +14,7 @@ import { AutoplayToggle } from './player-components/AutoplayToggle'
 import { SkipButton } from './player-components/SkipButton'
 import { ChapterNameButton } from './player-components2/ChapterNameButton'
 import { PlayPauseButton } from './player-components2/PlayPauseButton'
+import { TimeDisplay } from './player-components2/TimeDisplay'
 import { VolumeControl } from './player-components2/VolumeControl'
 import {
   deduplicateAudioTracks,
@@ -793,7 +794,7 @@ export default defineComponent({
       const controlPanelElements = [
         'ft_play_pause',
         'ft_volume',
-        'time_and_duration',
+        'ft_time_display',
         ...(props.chapters.length > 0 ? ['ft_chapter_name'] : []),
         'spacer'
       ]
@@ -2009,6 +2010,15 @@ export default defineComponent({
       shakaControls.registerElement('ft_chapter_name', new ChapterNameButtonFactory())
     }
 
+    function registerTimeDisplay() {
+      class TimeDisplayFactory {
+        create(rootElement, controls) {
+          return new TimeDisplay(rootElement, controls)
+        }
+      }
+      shakaControls.registerElement('ft_time_display', new TimeDisplayFactory())
+    }
+
     /**
      * As shaka-player doesn't let you unregister custom control factories,
      * overwrite them with `null` instead so the referenced objects
@@ -2046,6 +2056,8 @@ export default defineComponent({
       shakaControls.registerElement('ft_play_pause', null)
 
       shakaControls.registerElement('ft_volume', null)
+
+      shakaControls.registerElement('ft_time_display', null)
     }
 
     // #endregion custom player controls
@@ -2797,6 +2809,7 @@ export default defineComponent({
       registerChapterNameButton()
       registerPlayPauseButton()
       registerVolumeControl()
+      registerTimeDisplay()
 
       if (ui.isMobile()) {
         onlyUseOverFlowMenu.value = true

@@ -1,0 +1,22 @@
+:deep(.ft-time-display) {
+  width: fit-content;
+  border-radius: 20px;
+  padding: 0 12px;
+  cursor: default;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+:deep(.ft-time-display::before) {
+  inset: 4px;
+  border-radius: 16px;
+}
+
+:deep(.ft-time-display span) {
+  transform: translateY(1px);
+}
+
+:deep(.ft-time-display span:first-child) {
+  font-weight: bold;
+  margin-right: 4px;
+}

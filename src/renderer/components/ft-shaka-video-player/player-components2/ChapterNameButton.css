@@ -2,9 +2,14 @@
   width: fit-content;
   border-radius: 20px;
   padding: 0 12px;
+  font-weight: 600;
 }
 
 :deep(.ft-chapter-name-button::before) {
   inset: 4px;
   border-radius: 16px;
+}
+
+:deep(.ft-chapter-name-button span) {
+  transform: translateY(1px);
 }
