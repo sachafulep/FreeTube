@@ -12,7 +12,7 @@ export class PlayPauseButton extends shaka.ui.Element {
     const video = controls.getVideo()
 
     this.button_ = document.createElement('button')
-    this.button_.classList.add('ft-play-pause-button')
+    this.button_.classList.add('ft-player-button', 'ft-play-pause-button')
     this.parent.appendChild(this.button_)
 
     const updateIcon = () => {

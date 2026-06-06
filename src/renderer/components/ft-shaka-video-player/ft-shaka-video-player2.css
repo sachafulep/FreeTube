@@ -15,23 +15,22 @@
   margin: 18px 20px;
 }
 
-:deep(.ft-chapter-name-button) {
-  width: fit-content;
-}
-
-:deep(.ft-play-pause-button) {
+:deep(.ft-player-button) {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 40px;
   height: 40px;
+  flex-shrink: 0;
   background: rgba(0, 0, 0, 0.3);
+  border: none;
   border-radius: 50%;
   cursor: pointer;
+  color: inherit;
   position: relative;
 }
 
-:deep(.ft-play-pause-button::before) {
+:deep(.ft-player-button::before) {
   content: '';
   position: absolute;
   inset: 10%;
@@ -40,11 +39,11 @@
   opacity: 0;
 }
 
-:deep(.ft-play-pause-button:hover::before) {
+:deep(.ft-player-button:hover::before) {
   opacity: 1;
 }
 
-:deep(.ft-play-pause-button svg) {
+:deep(.ft-player-button svg) {
   width: 20px;
   height: 20px;
   fill: currentColor;

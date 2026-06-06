@@ -14,6 +14,7 @@ import { AutoplayToggle } from './player-components/AutoplayToggle'
 import { SkipButton } from './player-components/SkipButton'
 import { ChapterNameButton } from './player-components2/ChapterNameButton'
 import { PlayPauseButton } from './player-components2/PlayPauseButton'
+import { VolumeControl } from './player-components2/VolumeControl'
 import {
   deduplicateAudioTracks,
   findMostSimilarAudioBandwidth,
@@ -791,8 +792,7 @@ export default defineComponent({
     const uiConfig = computed(() => {
       const controlPanelElements = [
         'ft_play_pause',
-        'mute',
-        'volume',
+        'ft_volume',
         'time_and_duration',
         ...(props.chapters.length > 0 ? ['ft_chapter_name'] : []),
         'spacer'
@@ -1976,6 +1976,15 @@ export default defineComponent({
       shakaOverflowMenu.registerElement('ft_skip_previous', new SkipPreviousButtonFactory())
     }
 
+    function registerVolumeControl() {
+      class VolumeControlFactory {
+        create(rootElement, controls) {
+          return new VolumeControl(rootElement, controls)
+        }
+      }
+      shakaControls.registerElement('ft_volume', new VolumeControlFactory())
+    }
+
     function registerPlayPauseButton() {
       class PlayPauseButtonFactory {
         create(rootElement, controls) {
@@ -2035,6 +2044,8 @@ export default defineComponent({
       shakaControls.registerElement('ft_chapter_name', null)
 
       shakaControls.registerElement('ft_play_pause', null)
+
+      shakaControls.registerElement('ft_volume', null)
     }
 
     // #endregion custom player controls
@@ -2785,6 +2796,7 @@ export default defineComponent({
       registerSkipButtons()
       registerChapterNameButton()
       registerPlayPauseButton()
+      registerVolumeControl()
 
       if (ui.isMobile()) {
         onlyUseOverFlowMenu.value = true

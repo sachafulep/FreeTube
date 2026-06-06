@@ -5,7 +5,7 @@ export class ChapterNameButton extends shaka.ui.Element {
     super(parent, controls)
 
     this.button_ = document.createElement('button')
-    this.button_.classList.add('ft-chapter-name-button')
+    this.button_.classList.add('ft-player-button', 'ft-chapter-name-button')
 
     this.nameSpan_ = document.createElement('span')
     this.nameSpan_.textContent = initialTitle
