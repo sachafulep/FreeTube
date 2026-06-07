@@ -1070,8 +1070,10 @@ export default defineComponent({
       }
     }
 
+    let isDestroyingPlayer = false
+
     watch(uiConfig, (newValue, oldValue) => {
-      if (newValue !== oldValue && ui) {
+      if (newValue !== oldValue && ui && !isDestroyingPlayer) {
         configureUI()
       }
     })
@@ -3333,6 +3335,7 @@ export default defineComponent({
      */
     async function destroyPlayer() {
       ignoreErrors = true
+      isDestroyingPlayer = true
 
       let uiState = { startNextVideoInFullscreen: false, startNextVideoInFullwindow: false, startNextVideoInPip: false }
 
