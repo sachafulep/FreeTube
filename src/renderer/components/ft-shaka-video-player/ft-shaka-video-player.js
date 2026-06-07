@@ -15,6 +15,7 @@ import { SkipButton } from './player-components/SkipButton'
 import { ChapterNameButton } from './player-components2/ChapterNameButton'
 import { PlayPauseButton } from './player-components2/PlayPauseButton'
 import { FullscreenButton } from './player-components2/FullscreenButton'
+import { setupSeekBarChapterTooltip } from './player-components2/SeekBarChapterTooltip'
 import { QualityButton } from './player-components2/QualityButton'
 import { TimeDisplay } from './player-components2/TimeDisplay'
 import { VolumeControl } from './player-components2/VolumeControl'
@@ -209,6 +210,8 @@ export default defineComponent({
     const isLive = ref(false)
 
     const onlyUseOverFlowMenu = ref(false)
+
+    let cleanUpSeekBarChapterTooltip = null
     const forceAspectRatio = ref(false)
 
     const activeLegacyFormat = shallowRef(null)
@@ -1033,6 +1036,15 @@ export default defineComponent({
       if (hasLoaded.value && props.chapters.length > 0) {
         createChapterMarkers()
       }
+
+      if (cleanUpSeekBarChapterTooltip) {
+        cleanUpSeekBarChapterTooltip()
+      }
+      cleanUpSeekBarChapterTooltip = setupSeekBarChapterTooltip(
+        container.value,
+        video.value,
+        () => props.chapters
+      )
 
       if (useSponsorBlock.value && sponsorBlockSegments.length > 0) {
         let duration
@@ -2083,6 +2095,8 @@ export default defineComponent({
       shakaControls.registerElement('ft_quality', null)
 
       shakaControls.registerElement('ft_fullscreen', null)
+
+      cleanUpSeekBarChapterTooltip?.()
     }
 
     // #endregion custom player controls

@@ -50,9 +50,30 @@
   box-shadow: none;
 }
 
+:deep(.shaka-player-ui-thumbnail-time-container) {
+  gap: 6px;
+  background: rgba(0, 0, 0, .5);
+  border-radius: 20px;
+  padding: 10px 16px !important;
+  flex-direction: row-reverse;
+}
+
 :deep(.shaka-player-ui-thumbnail-time) {
-  padding: 8px 12px !important;
-  border-radius: 20px !important;
+  background: transparent !important;
+  font-size: 13px !important;
+  transform: translateY(1px);
+  padding: 0 !important;
+}
+
+:deep(.ft-seek-chapter-name) {
+  transform: translateY(1px);
+  font-size: 13px;
+  color: white;
+  font-weight: 600;
+  white-space: nowrap;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 :deep(.shaka-controls-button-panel) {
