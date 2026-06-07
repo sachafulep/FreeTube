@@ -846,11 +846,11 @@ export default defineComponent({
         uiConfig.controlPanelElements.push(
           'ft_quality',
           'ft_screenshot',
-          'ft_autoplay_toggle',
-          'overflow_menu',
-          'picture_in_picture',
-          'ft_theatre_mode',
-          'ft_full_window',
+          // 'ft_autoplay_toggle',
+          // 'overflow_menu',
+          // 'picture_in_picture',
+          // 'ft_theatre_mode',
+          // 'ft_full_window',
           'ft_fullscreen'
         )
 

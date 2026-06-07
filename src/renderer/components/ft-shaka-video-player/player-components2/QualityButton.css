@@ -28,9 +28,9 @@
 :deep(.ft-quality-dropdown-container) {
   position: absolute;
   bottom: 100%;
-  right: 0;
+  left: -40px;
   min-width: 130px;
-  padding-bottom: 8px;
+  padding-bottom: 36px;
   z-index: 10;
 }
 

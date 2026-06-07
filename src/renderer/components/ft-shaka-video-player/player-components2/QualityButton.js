@@ -8,14 +8,14 @@ const CHECK_ICON = icon(faCheck).html[0]
 function getQualityLabel(height) {
   if (height >= 2160) return `${height}p (4K)`
   if (height >= 1440) return `${height}p (2K)`
-  if (height >= 720) return `${height}p (HD)`
+  if (height >= 1080) return `${height}p (HD)`
   return `${height}p`
 }
 
 function getQualityBadge(height) {
   if (height >= 2160) return '4K'
   if (height >= 1440) return '2K'
-  if (height >= 720) return 'HD'
+  if (height >= 1080) return 'HD'
   return ''
 }
 
@@ -176,6 +176,7 @@ export class QualityButton extends shaka.ui.Element {
 
     const badge = abrEnabled ? '' : getQualityBadge(activeHeight)
     this.badge_.innerHTML = badge ? makePixelSvg(badge) : ''
+    this.badge_.hidden = !badge
 
     for (const btn of this.dropdown_.querySelectorAll('.ft-quality-option')) {
       const check = btn.querySelector('.ft-quality-check')

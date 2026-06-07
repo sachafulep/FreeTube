@@ -15,36 +15,52 @@
   margin: 18px 20px;
 }
 
-:deep(.ft-player-button) {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  flex-shrink: 0;
-  background: rgba(0, 0, 0, 0.3);
+:deep(.shaka-bottom-controls) {
+  width: 100%;
+  margin: 14px 0;
+}
+
+:deep(.shaka-seek-bar-container) {
+  margin: 12px 14px;
+  top: 0;
   border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  color: inherit;
-  position: relative;
 }
 
-:deep(.ft-player-button::before) {
-  content: '';
-  position: absolute;
-  inset: 10%;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.1);
-  opacity: 0;
-}
-
-:deep(.ft-player-button:hover::before) {
-  opacity: 1;
-}
-
-:deep(.ft-player-button svg) {
-  width: 20px;
+:deep(.shaka-range-element ) {
   height: 20px;
-  fill: currentColor;
+  top: calc((4px - 20px) / 2);
+}
+
+:deep(.markerContainer > .chapterMarker:first-of-type) {
+  display: none;
+}
+
+:deep(.chapterMarker) {
+  width: 4px;
+}
+
+:deep(.shaka-player-ui-thumbnail-container) {
+  gap: 10px;
+  bottom: 26px;
+}
+
+:deep(.shaka-player-ui-thumbnail-image-container) {
+  border: 1px solid white;
+  border-radius: 10px;
+  box-shadow: none;
+}
+
+:deep(.shaka-player-ui-thumbnail-time) {
+  padding: 8px 12px !important;
+  border-radius: 20px !important;
+}
+
+:deep(.shaka-controls-button-panel) {
+  margin: 0 14px;
+  gap: 10px;
+}
+
+:deep(.shaka-spacer) {
+  width: unset;
+  height: unset;
 }
