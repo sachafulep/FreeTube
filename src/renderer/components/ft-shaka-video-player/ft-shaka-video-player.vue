@@ -133,5 +133,6 @@
 <style scoped src="./ft-shaka-video-player2.css" />
 <style scoped src="./player-components2/ChapterNameButton.css" />
 <style scoped src="./player-components2/PlayPauseButton.css" />
+<style scoped src="./player-components2/QualityButton.css" />
 <style scoped src="./player-components2/TimeDisplay.css" />
 <style scoped src="./player-components2/VolumeControl.css" />

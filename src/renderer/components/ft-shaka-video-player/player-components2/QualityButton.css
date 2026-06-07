@@ -1,0 +1,75 @@
+:deep(.ft-quality-wrapper) {
+  width: auto !important;
+  height: 40px !important;
+  padding: 0 !important;
+  position: relative;
+}
+
+:deep(.ft-quality-icon) {
+  display: contents;
+}
+
+:deep(.ft-quality-badge svg) {
+  width: auto;
+  height: auto;
+}
+
+:deep(.ft-quality-badge) {
+  position: absolute;
+  top: 11px;
+  right: 4px;
+  color: white;
+  pointer-events: none;
+  background-color: #e1002d;
+  padding: 2px;
+  line-height: 0;
+}
+
+:deep(.ft-quality-dropdown-container) {
+  position: absolute;
+  bottom: 100%;
+  right: 0;
+  min-width: 130px;
+  padding-bottom: 8px;
+  z-index: 10;
+}
+
+:deep(.ft-quality-dropdown) {
+  background: rgba(28, 28, 28, 0.9);
+  border-radius: 12px;
+  padding: 5px;
+}
+
+:deep(.ft-quality-option) {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 14px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+:deep(.ft-quality-option:hover) {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+:deep(.ft-quality-label) {
+  transform: translateY(2px);
+}
+
+:deep(.ft-quality-check) {
+  width: 14px;
+  flex-shrink: 0;
+}
+
+:deep(.ft-quality-check svg) {
+  width: 12px;
+  height: 12px;
+  fill: currentColor;
+}

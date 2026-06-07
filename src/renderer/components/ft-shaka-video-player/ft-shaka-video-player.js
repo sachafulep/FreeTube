@@ -14,6 +14,7 @@ import { AutoplayToggle } from './player-components/AutoplayToggle'
 import { SkipButton } from './player-components/SkipButton'
 import { ChapterNameButton } from './player-components2/ChapterNameButton'
 import { PlayPauseButton } from './player-components2/PlayPauseButton'
+import { QualityButton } from './player-components2/QualityButton'
 import { TimeDisplay } from './player-components2/TimeDisplay'
 import { VolumeControl } from './player-components2/VolumeControl'
 import {
@@ -825,7 +826,7 @@ export default defineComponent({
       if (onlyUseOverFlowMenu.value) {
         uiConfig.overflowMenuButtons = [
           'ft_autoplay_toggle',
-          props.format === 'legacy' ? 'ft_legacy_quality' : 'quality',
+          props.format === 'legacy' ? 'ft_legacy_quality' : 'ft_quality',
           'playback_rate',
           'captions',
           'ft_audio_tracks',
@@ -842,6 +843,7 @@ export default defineComponent({
         uiConfig.controlPanelElements.push('overflow_menu', 'fullscreen')
       } else {
         uiConfig.controlPanelElements.push(
+          'ft_quality',
           'ft_screenshot',
           'ft_autoplay_toggle',
           'overflow_menu',
@@ -855,7 +857,7 @@ export default defineComponent({
           'ft_audio_tracks',
           'captions',
           'playback_rate',
-          props.format === 'legacy' ? 'ft_legacy_quality' : 'quality',
+          props.format === 'legacy' ? 'ft_legacy_quality' : 'ft_quality',
           'loop',
           'recenter_vr',
           'toggle_stereoscopic',
@@ -2019,6 +2021,15 @@ export default defineComponent({
       shakaControls.registerElement('ft_time_display', new TimeDisplayFactory())
     }
 
+    function registerQualityButton() {
+      class QualityButtonFactory {
+        create(rootElement, controls) {
+          return new QualityButton(rootElement, controls)
+        }
+      }
+      shakaControls.registerElement('ft_quality', new QualityButtonFactory())
+    }
+
     /**
      * As shaka-player doesn't let you unregister custom control factories,
      * overwrite them with `null` instead so the referenced objects
@@ -2058,6 +2069,8 @@ export default defineComponent({
       shakaControls.registerElement('ft_volume', null)
 
       shakaControls.registerElement('ft_time_display', null)
+
+      shakaControls.registerElement('ft_quality', null)
     }
 
     // #endregion custom player controls
@@ -2810,6 +2823,7 @@ export default defineComponent({
       registerPlayPauseButton()
       registerVolumeControl()
       registerTimeDisplay()
+      registerQualityButton()
 
       if (ui.isMobile()) {
         onlyUseOverFlowMenu.value = true
