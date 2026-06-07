@@ -14,6 +14,7 @@ import { AutoplayToggle } from './player-components/AutoplayToggle'
 import { SkipButton } from './player-components/SkipButton'
 import { ChapterNameButton } from './player-components2/ChapterNameButton'
 import { PlayPauseButton } from './player-components2/PlayPauseButton'
+import { FullscreenButton } from './player-components2/FullscreenButton'
 import { QualityButton } from './player-components2/QualityButton'
 import { TimeDisplay } from './player-components2/TimeDisplay'
 import { VolumeControl } from './player-components2/VolumeControl'
@@ -840,7 +841,7 @@ export default defineComponent({
 
         elementList = uiConfig.overflowMenuButtons
 
-        uiConfig.controlPanelElements.push('overflow_menu', 'fullscreen')
+        uiConfig.controlPanelElements.push('overflow_menu', 'ft_fullscreen')
       } else {
         uiConfig.controlPanelElements.push(
           'ft_quality',
@@ -850,7 +851,7 @@ export default defineComponent({
           'picture_in_picture',
           'ft_theatre_mode',
           'ft_full_window',
-          'fullscreen'
+          'ft_fullscreen'
         )
 
         uiConfig.overflowMenuButtons.push(
@@ -2021,6 +2022,15 @@ export default defineComponent({
       shakaControls.registerElement('ft_time_display', new TimeDisplayFactory())
     }
 
+    function registerFullscreenButton() {
+      class FullscreenButtonFactory {
+        create(rootElement, controls) {
+          return new FullscreenButton(rootElement, controls)
+        }
+      }
+      shakaControls.registerElement('ft_fullscreen', new FullscreenButtonFactory())
+    }
+
     function registerQualityButton() {
       class QualityButtonFactory {
         create(rootElement, controls) {
@@ -2071,6 +2081,8 @@ export default defineComponent({
       shakaControls.registerElement('ft_time_display', null)
 
       shakaControls.registerElement('ft_quality', null)
+
+      shakaControls.registerElement('ft_fullscreen', null)
     }
 
     // #endregion custom player controls
@@ -2824,6 +2836,7 @@ export default defineComponent({
       registerVolumeControl()
       registerTimeDisplay()
       registerQualityButton()
+      registerFullscreenButton()
 
       if (ui.isMobile()) {
         onlyUseOverFlowMenu.value = true

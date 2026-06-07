@@ -1,0 +1,4 @@
+:deep(.ft-fullscreen-button svg) {
+  transform: rotate(90deg);
+  width: 16px;
+}
