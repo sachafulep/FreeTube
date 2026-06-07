@@ -2,21 +2,14 @@
   margin: 0 !important;
 }
 
-.videoArea {
-  margin-bottom: 10px;
-}
-
 .videoPlayer {
   border-radius: 10px;
-}
-
-.sidebarArea {
-  margin-left: 16px;
 }
 
 .videoLayout {
   padding: 0 24px 24px 24px;
   grid-template-columns: 1fr 1fr 400px;
+  gap: 10px;
 
   @media only screen and (width <= 1050px) {
     grid-template-columns: auto;

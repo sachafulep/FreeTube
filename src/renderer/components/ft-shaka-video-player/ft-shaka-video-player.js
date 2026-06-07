@@ -206,6 +206,12 @@ export default defineComponent({
 
     const hasLoaded = ref(false)
 
+    watch(hasLoaded, (loaded) => {
+      if (!loaded) {
+        container.value?.querySelector('.shaka-controls-container')?.removeAttribute('shown')
+      }
+    })
+
     const hasMultipleAudioTracks = ref(false)
     const isLive = ref(false)
 
@@ -1011,6 +1017,10 @@ export default defineComponent({
     function addUICustomizations() {
       /** @type {HTMLDivElement} */
       const controlsContainer = ui.getControls().getControlsContainer()
+
+      if (!hasLoaded.value) {
+        controlsContainer.removeAttribute('shown')
+      }
 
       controlsContainer.removeEventListener('wheel', handleControlsContainerWheel)
       controlsContainer.removeEventListener('click', handleControlsContainerClick, true)
