@@ -34,7 +34,7 @@ if (platform === 'darwin') {
     arch = Arch.armv7l
   }
 
-  targets = Platform.LINUX.createTarget(['deb', 'zip', '7z', 'rpm', 'AppImage', 'pacman'], arch)
+  targets = Platform.LINUX.createTarget(['AppImage'], arch)
 }
 
 const output = await build({ targets, config, publish: 'never' })
