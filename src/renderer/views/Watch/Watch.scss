@@ -138,6 +138,9 @@
 
   .infoArea {
     grid-area: info;
+    margin-inline: auto;
+    max-inline-size: calc(80vh * 1.78);
+    min-inline-size: 0;
     position: relative;
     z-index: 2;
   }
