@@ -55,12 +55,15 @@
 .optionWrapper {
   align-items: center;
   gap: 10px;
+  max-width: 340px;
+
+  bdi {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 
 .searchResultIcon {
   padding: 0;
-}
-
-.removeButton {
-  margin-top: 4px;
 }
