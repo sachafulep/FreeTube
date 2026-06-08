@@ -6,6 +6,7 @@ export class TimeDisplay extends shaka.ui.Element {
     super(parent, controls)
 
     const video = controls.getVideo()
+    const player = controls.getPlayer()
 
     this.container_ = document.createElement('div')
     this.container_.classList.add('ft-player-button', 'ft-time-display')
@@ -21,8 +22,16 @@ export class TimeDisplay extends shaka.ui.Element {
     }
 
     const updateDuration = () => {
-      const dur = video.duration
-      this.durationSpan_.textContent = isFinite(dur) ? ' / ' + formatDurationAsTimestamp(Math.floor(dur)) : ''
+      let dur = video.duration
+
+      if (!isFinite(dur)) {
+        dur =
+        player.getManifest()?.presentationTimeline?.getDuration() ?? NaN
+      }
+
+      this.durationSpan_.textContent =
+        isFinite(dur) ? ' / ' +
+        formatDurationAsTimestamp(Math.floor(dur)) : ''
     }
 
     updateTime()
@@ -30,5 +39,6 @@ export class TimeDisplay extends shaka.ui.Element {
 
     this.eventManager.listen(video, 'timeupdate', updateTime)
     this.eventManager.listen(video, 'durationchange', updateDuration)
+    this.eventManager.listen(player, 'trackschanged', updateDuration)
   }
 }
