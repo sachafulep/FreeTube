@@ -52,7 +52,8 @@ export default {
   linux: {
     category: 'Network',
     icon: '_icons/icon.svg',
-    target: ['deb', 'zip', '7z', 'rpm', 'AppImage', 'pacman'],
+    target: ['AppImage'],
+    artifactName: '${productName}.${ext}',
   },
   // See the following issues for more information
   // https://github.com/jordansissel/fpm/issues/1503
