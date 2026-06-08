@@ -11,5 +11,5 @@
 }
 
 :deep(.ft-chapter-name-button span) {
-  transform: translateY(1px);
+  transform: translateY(3px);
 }
