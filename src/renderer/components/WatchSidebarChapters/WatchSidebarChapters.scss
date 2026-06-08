@@ -26,6 +26,7 @@
 
 .sidebarChapterThumbnail {
   inline-size: 100px;
+  height: 56px;
   border-radius: 4px;
   flex-shrink: 0;
   object-fit: cover;
@@ -43,7 +44,7 @@
   overflow: hidden;
   display: -webkit-box;
   line-clamp: 2;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
 }
 
