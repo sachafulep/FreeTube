@@ -188,4 +188,3 @@ function scrollToCurrentChapter() {
 </script>
 
 <style scoped src="./WatchVideoChapters.css" />
-<style scoped src="./WatchVideoChapters2.css" />

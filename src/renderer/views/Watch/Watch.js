@@ -582,7 +582,7 @@ export default defineComponent({
         }
 
         let chapters = []
-        if (!this.hideChapters) {
+        if (true) {
           const rawChapters = result.player_overlays?.decorated_player_bar?.player_bar?.markers_map
             ?.find(marker => marker.marker_key === 'DESCRIPTION_CHAPTERS')?.value.chapters
 
