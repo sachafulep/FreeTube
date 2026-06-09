@@ -8,13 +8,13 @@ let targets
 const platform = process.platform
 
 if (platform === 'darwin') {
-  let arch = Arch.x64
+  let arch = Arch.arm64
 
-  if (args[2] === 'arm64') {
-    arch = Arch.arm64
+  if (args[2] === 'x64') {
+    arch = Arch.x64
   }
 
-  targets = Platform.MAC.createTarget(['DMG', 'zip', '7z'], arch)
+  targets = Platform.MAC.createTarget(['DMG'], arch)
 } else if (platform === 'win32') {
   let arch = Arch.x64
 
