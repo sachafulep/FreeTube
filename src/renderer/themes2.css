@@ -5,3 +5,17 @@ body, .app {
 a:link {
   color: rgb(62, 166, 255);
 }
+
+body[data-platform='darwin'] .topNav {
+  -webkit-app-region: drag;
+  padding-left: 80px;
+}
+
+body[data-platform='darwin'] .topNav button,
+body[data-platform='darwin'] .topNav input,
+body[data-platform='darwin'] .topNav select,
+body[data-platform='darwin'] .topNav a,
+body[data-platform='darwin'] .topNav [role='button'],
+body[data-platform='darwin'] .topNav [tabindex] {
+  -webkit-app-region: no-drag;
+}

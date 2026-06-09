@@ -17,6 +17,7 @@ const titleMutationObserver = new MutationObserver((mutations) => {
   ipcRenderer.send(IpcChannels.SET_WINDOW_TITLE, mutations[0].addedNodes[0].textContent)
 })
 document.addEventListener('DOMContentLoaded', () => {
+  document.body.dataset.platform = process.platform
   titleMutationObserver.observe(document.querySelector('title'), { childList: true })
 }, { once: true })
 

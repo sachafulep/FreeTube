@@ -984,6 +984,12 @@ function runApp() {
       },
       minWidth: 340,
       minHeight: 380,
+      ...(process.platform === 'darwin'
+        ? {
+            titleBarStyle: 'hiddenInset',
+            trafficLightPosition: { x: 20, y: 20 },
+          }
+        : {}),
       ...savedBounds
         ? {
             x: savedBounds.x,
