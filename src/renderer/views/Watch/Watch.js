@@ -1020,7 +1020,7 @@ export default defineComponent({
           }
 
           let chapters = []
-          if (!this.hideChapters) {
+          if (true) {
             chapters = this.extractChaptersFromDescription(result.description)
 
             if (chapters.length > 0) {
@@ -1188,7 +1188,7 @@ export default defineComponent({
     updateCurrentChapter: function (currentSeconds) {
       const chapters = this.videoChapters
 
-      if (this.hideChapters || chapters.length === 0) {
+      if (chapters.length === 0) {
         return
       }
 
