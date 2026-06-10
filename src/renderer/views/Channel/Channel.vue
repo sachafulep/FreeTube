@@ -4,24 +4,16 @@
       v-if="isLoading && !errorMessage"
       :fullscreen="true"
     />
-    <ChannelDetails
+    <ChannelHeader
       v-else-if="(isFamilyFriendly || !showFamilyFriendlyOnly)"
       :id="id"
       :name="channelName"
       :banner-url="bannerUrl"
-      :has-error-message="!!errorMessage"
       :thumbnail-url="thumbnailUrl"
       :sub-count="subCount"
-      :show-share-menu="showShareMenu"
-      :show-search-bar="showSearchBar"
-      :is-subscribed="isSubscribed"
-      :visible-tabs="tabInfoValues"
-      :current-tab="currentTab"
-      :query="lastSearchQuery"
+      :video-count="videoCount"
+      :description="description"
       class="card channelDetails"
-      @change-tab="changeTab"
-      @search="newSearchWithStatePersist"
-      @subscribed="handleSubscription"
     />
     <FtCard
       v-if="!isLoading && !errorMessage && (isFamilyFriendly || !showFamilyFriendlyOnly)"
@@ -271,7 +263,7 @@ import { isNavigationFailure, NavigationFailureType, useRoute, useRouter } from 
 import { YTNodes } from 'youtubei.js'
 
 import ChannelAbout from '../../components/ChannelAbout/ChannelAbout.vue'
-import ChannelDetails from '../../components/ChannelDetails/ChannelDetails.vue'
+import ChannelHeader from '../../components/ChannelHeader/ChannelHeader.vue'
 import ChannelHome from '../../components/ChannelHome/ChannelHome.vue'
 import FtAgeRestricted from '../../components/FtAgeRestricted/FtAgeRestricted.vue'
 import FtAutoLoadNextPageWrapper from '../../components/FtAutoLoadNextPageWrapper.vue'
@@ -2346,3 +2338,4 @@ function filterWatchedArray(videos) {
 </script>
 
 <style scoped src="./Channel.css" />
+<style scoped src="./Channel2.css" />

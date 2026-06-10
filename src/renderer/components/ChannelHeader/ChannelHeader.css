@@ -1,0 +1,63 @@
+.bannerContainer {
+  background: center / cover no-repeat var(--banner-url, transparent);
+  block-size: 13vw;
+  min-block-size: 110px;
+  max-block-size: 32vh;
+  inline-size: 100%;
+  border-radius: 16px;
+}
+
+.bannerContainer.default {
+  background-color: #000;
+  background-image: url('../../assets/img/defaultBanner.png');
+  background-repeat: repeat;
+  background-size: contain;
+}
+
+.info {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 32px 0;
+}
+
+.thumbnail {
+  width: 160px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.infoColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-inline-size: 0;
+}
+
+.infoRow {
+  display: flex;
+  gap: 4px;
+
+  p {
+    margin: 0;
+    color: var(--tertiary-text-color);
+    margin: 0;
+  }
+}
+
+.name {
+  font-size: 38px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.description {
+  color: var(--secondary-text-color);
+  margin: 6px 0 10px 0;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}

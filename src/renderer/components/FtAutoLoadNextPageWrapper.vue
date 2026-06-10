@@ -47,3 +47,5 @@ const observeVisibilityOptions = computed(() => {
   }
 })
 </script>
+
+<style scoped src="./FtAutoLoadNextPageWrapper2.css" />

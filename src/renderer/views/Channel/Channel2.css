@@ -1,0 +1,20 @@
+.channelDetails {
+  width: 80vw;
+}
+
+.select-container {
+  display: none;
+}
+
+.getNextPage {
+  width: fit-content;
+  padding: 0 36px;
+  border-radius: 10px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.elementList {
+  margin-bottom: 50px;
+}
