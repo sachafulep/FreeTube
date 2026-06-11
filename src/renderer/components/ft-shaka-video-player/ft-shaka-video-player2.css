@@ -4,7 +4,8 @@
 
 :deep(.shaka-controls-button-panel),
 :deep(.shaka-scrim-container),
-:deep(.shaka-seek-bar-container) {
+:deep(.shaka-seek-bar-container),
+:deep(.playerFullscreenTitleOverlay) {
   transition-duration: 0s;
 }
 
