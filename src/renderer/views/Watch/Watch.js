@@ -1946,6 +1946,9 @@ export default defineComponent({
           this.manifestMimeType = MANIFEST_TYPE_DASH
         }
 
+        if (this.$refs.player) {
+          await this.destroyPlayer()
+        }
         this.playerKey++
       } catch (err) {
         console.error('Stream reload failed, falling back to full reload', err)
