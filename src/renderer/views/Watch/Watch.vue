@@ -18,6 +18,7 @@
       <div class="videoAreaMargin">
         <ft-shaka-video-player
           v-if="!isLoading && (!isUpcoming || playabilityStatus === 'OK') && !errorMessage"
+          :key="playerKey"
           ref="player"
           :manifest-src="manifestSrc"
           :manifest-mime-type="manifestMimeType"

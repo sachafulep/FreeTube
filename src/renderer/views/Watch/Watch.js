@@ -98,6 +98,7 @@ export default defineComponent({
       firstLoad: true,
       useTheatreMode: false,
       videoPlayerLoaded: false,
+      playerKey: 0,
       isFamilyFriendly: false,
       isLive: false,
       liveChat: null,
@@ -1919,26 +1920,46 @@ export default defineComponent({
       this.startNextVideoInPip = uiState.startNextVideoInPip
     },
 
+    async reloadStream() {
+      try {
+        const videoInfo = await getLocalVideoInfo(this.videoId)
+        const { info: result, poToken, clientInfo, adEndTimeUnixMs } = videoInfo
+
+        this.adEndTimeUnixMs = adEndTimeUnixMs
+
+        if (result.streaming_data) {
+          this.streamingDataExpiryDate = result.streaming_data.expires
+        }
+
+        if (
+          result.streaming_data?.server_abr_streaming_url &&
+          result.player_config.media_common_config.media_ustreamer_request_config
+        ) {
+          this.manifestSrc = this.createLocalSabrManifest(result, poToken, clientInfo, [])
+          this.manifestMimeType = MANIFEST_TYPE_SABR
+        } else if (
+          result.streaming_data?.adaptive_formats[0]?.url ||
+          result.streaming_data?.adaptive_formats[0]?.signature_cipher ||
+          result.streaming_data?.adaptive_formats[0]?.cipher
+        ) {
+          this.manifestSrc = await this.createLocalDashManifest(result)
+          this.manifestMimeType = MANIFEST_TYPE_DASH
+        }
+
+        this.playerKey++
+      } catch (err) {
+        console.error('Stream reload failed, falling back to full reload', err)
+        await this.reloadView()
+      }
+    },
+
     async onPlayerReloadRequested() {
       showToast('Reloading player according to SABR request')
-
       const timestamp = this.getTimestamp()
       if (timestamp > 0) {
-        // Reload at the middle should restart at current timestamp
-        try {
-          await this.$router.replace({
-            path: this.$route.path,
-            query: { ...this.$route.query, oneTimeTimestamp: timestamp },
-          })
-        } catch (failure) {
-          if (isNavigationFailure(failure, NavigationFailureType.duplicated)) {
-            // Already on route with same timestamp, allow reloadView to run instead
-          } else {
-            throw failure
-          }
-        }
+        this.oneTimeTimestamp = timestamp
       }
-      await this.reloadView()
+      await this.reloadStream()
     },
 
     ...mapActions([
