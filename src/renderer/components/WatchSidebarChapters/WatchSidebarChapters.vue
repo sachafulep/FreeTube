@@ -1,6 +1,6 @@
 <template>
   <div class="sidebarChapters">
-    <div class="sidebarChaptersList">
+    <div ref="chaptersList" class="sidebarChaptersList">
       <div
         v-for="(chapter, index) in chapters"
         :key="index"
@@ -41,13 +41,38 @@ export default defineComponent({
       type: Number,
       required: true,
     },
+    isVisible: {
+      type: Boolean,
+      required: true,
+    },
   },
 
   emits: ['timestamp-event'],
 
+  watch: {
+    isVisible(visible) {
+      if (visible) {
+        this.$nextTick(this.scrollToCurrentChapter)
+      }
+    },
+    currentChapterIndex() {
+      if (this.isVisible) {
+        this.scrollToCurrentChapter()
+      }
+    },
+  },
+
   methods: {
     changeChapter(startSeconds) {
       this.$emit('timestamp-event', startSeconds)
+    },
+
+    scrollToCurrentChapter() {
+      const container = this.$refs.chaptersList
+      const currentItem = container?.children[this.currentChapterIndex]
+      if (currentItem != null) {
+        container.scrollTop = currentItem.offsetTop - container.offsetTop
+      }
     },
   },
 })

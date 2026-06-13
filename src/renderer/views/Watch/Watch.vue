@@ -199,6 +199,7 @@
         v-show="showSidebarChapters"
         :chapters="videoChapters"
         :current-chapter-index="videoCurrentChapterIndex"
+        :is-visible="showSidebarChapters"
         @timestamp-event="changeTimestamp"
       />
       <watch-video-live-chat
