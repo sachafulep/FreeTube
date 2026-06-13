@@ -1,0 +1,22 @@
+.showMoreRepliesButton {
+  font-size: 15px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  color: #f1f1f1;
+  cursor: pointer;
+  width: fit-content;
+  padding: 10px 14px 8px 18px;
+  border-radius: 25px;
+
+  span {
+    transform: translateY(2px);
+  }
+}
+
+.showMoreRepliesButton:hover {
+  background-color: #3f3f3f;
+}

@@ -1,0 +1,50 @@
+.getCommentsTitle, .hideComments, .commentSort,
+.commentSubscribedIcon {
+  display: none;
+}
+
+.card {
+  padding: 0;
+}
+
+.comment {
+  padding: 0 20px 20px 0;
+}
+
+.commentPinned, .commentAuthorWrapper, .commentText {
+  margin-left: 50px;
+}
+
+.commentLikeCount {
+  margin-left: 0;
+}
+
+.commentThumbnail {
+  width: 36px;
+  height: 36px;
+}
+
+.commentPinned {
+  color: #aaaaaa;
+  margin-bottom: 8px;
+}
+
+.commentAuthorWrapper {
+  margin-bottom: 6px;
+}
+
+.commentOwner {
+  background: white;
+  color: #0f0f0f;
+  font-size: 13px;
+  padding: 2px 6px;
+}
+
+.commentDate {
+  color: #aaaaaa;
+}
+
+.commentText {
+  margin-top: 0;
+  margin-bottom: 10px;
+}

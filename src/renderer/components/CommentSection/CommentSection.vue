@@ -124,49 +124,15 @@
           :input-html="comment.text"
           @timestamp-event="onTimestamp"
         />
-        <p class="commentLikeCount">
-          <template
-            v-if="!hideCommentLikes"
-          >
-            <FontAwesomeIcon
-              :icon="['fas', 'thumbs-up']"
-            />
-            {{ comment.likes }}
-          </template>
-          <span
-            v-if="comment.isHearted"
-            class="commentHeartBadge"
-          >
-            <img
-              :src="channelThumbnail"
-              :title="$t('Comments.Hearted')"
-              :aria-label="$t('Comments.Hearted')"
-              class="commentHeartBadgeImg"
-              alt=""
-            >
-            <FontAwesomeIcon
-              :icon="['fas', 'heart']"
-              class="commentHeartBadgeWhite"
-            />
-            <FontAwesomeIcon
-              :icon="['fas', 'heart']"
-              class="commentHeartBadgeRed"
-            />
-          </span>
-          <span
-            v-if="comment.numReplies > 0"
-            class="commentMoreReplies"
-            role="button"
-            tabindex="0"
-            @click="toggleCommentReplies(index)"
-            @keydown.space.prevent="toggleCommentReplies(index)"
-            @keydown.enter.prevent="toggleCommentReplies(index)"
-          >
-            <span>
-              {{ toggleCommentRepliesLinkText(comment) }}
-            </span>
-          </span>
-        </p>
+        <CommentLikeCount
+          :likes="comment.likes"
+          :num-replies="comment.numReplies"
+          :is-hearted="comment.isHearted"
+          :channel-thumbnail="channelThumbnail"
+          :hide-comment-likes="hideCommentLikes"
+          :show-replies="comment.showReplies"
+          @toggle-replies="toggleCommentReplies(index)"
+        />
         <div
           v-if="comment.showReplies"
           class="commentReplies"
@@ -229,37 +195,15 @@
               :input-html="reply.text"
               @timestamp-event="onTimestamp"
             />
-            <p class="commentLikeCount">
-              <template
-                v-if="!hideCommentLikes"
-              >
-                <FontAwesomeIcon
-                  v-if="!hideCommentLikes"
-                  :icon="['fas', 'thumbs-up']"
-                />
-                {{ reply.likes }}
-              </template>
-              <span
-                v-if="reply.isHearted"
-                class="commentHeartBadge"
-              >
-                <img
-                  :src="channelThumbnail"
-                  :title="$t('Comments.Hearted')"
-                  :aria-label="$t('Comments.Hearted')"
-                  class="commentHeartBadgeImg"
-                  alt=""
-                >
-                <FontAwesomeIcon
-                  :icon="['fas', 'heart']"
-                  class="commentHeartBadgeWhite"
-                />
-                <FontAwesomeIcon
-                  :icon="['fas', 'heart']"
-                  class="commentHeartBadgeRed"
-                />
-              </span>
-            </p>
+            <CommentLikeCount
+              :likes="reply.likes"
+              :num-replies="reply.numReplies ?? 0"
+              :is-hearted="reply.isHearted"
+              :channel-thumbnail="channelThumbnail"
+              :hide-comment-likes="hideCommentLikes"
+              :show-replies="false"
+              :is-reply="true"
+            />
             <p
               v-if="reply.numReplies > 0"
               class="commentMoreReplies"
@@ -267,17 +211,10 @@
               {{ $t('Comments.View {replyCount} replies', { replyCount: reply.numReplies }, reply.numReplies) }}
             </p>
           </div>
-          <div
+          <ShowMoreRepliesButton
             v-if="comment.hasReplyToken"
-            class="showMoreReplies"
-            role="button"
-            tabindex="0"
             @click="getCommentReplies(index)"
-            @keydown.space.prevent="getCommentReplies(index)"
-            @keydown.enter.prevent="getCommentReplies(index)"
-          >
-            <span>{{ $t("Comments.Show More Replies") }}</span>
-          </div>
+          />
         </div>
       </div>
     </div>
@@ -323,9 +260,11 @@
 
 <script setup>
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { computed, ref, shallowRef } from 'vue'
+import { computed, ref, shallowRef, watch } from 'vue'
 import { useI18n } from '../../composables/use-i18n-polyfill'
 
+import CommentLikeCount from '../CommentLikeCount/CommentLikeCount.vue'
+import ShowMoreRepliesButton from '../ShowMoreRepliesButton/ShowMoreRepliesButton.vue'
 import FtCard from '../ft-card/ft-card.vue'
 import FtLoader from '../FtLoader/FtLoader.vue'
 import FtSelect from '../FtSelect/FtSelect.vue'
@@ -418,6 +357,13 @@ const canPerformInitialCommentLoading = computed(() => {
 const canPerformMoreCommentLoading = computed(() => {
   return commentData.value.length > 0 && !isLoading.value && showComments.value && !!nextPageToken.value
 })
+
+watch(() => props.videoPlayerReady, (isReady) => {
+  // if (isReady && canPerformInitialCommentLoading.value && !props.isPostComments) {
+  if (isReady) {
+    getCommentData()
+  }
+}, { immediate: true })
 
 const observeVisibilityOptions = computed(() => {
   if (!generalAutoLoadMorePaginatedItemsEnabled.value) {
@@ -859,3 +805,4 @@ async function getPostCommentRepliesInvidious(index) {
 </script>
 
 <style scoped src="./CommentSection.css" />
+<style scoped src="./CommentSection2.css" />

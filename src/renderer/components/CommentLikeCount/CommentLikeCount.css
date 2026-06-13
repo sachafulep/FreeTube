@@ -1,0 +1,82 @@
+.commentLikeCount {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.commentLikeRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  height: 26px;
+  margin-left: 50px;
+
+  span:first-of-type {
+    color: #aaaaaa;
+    transform: translateY(1px);
+  }
+}
+
+.commentRepliesButton {
+  font-size: 15px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  color: #f1f1f1;
+  cursor: pointer;
+  width: fit-content;
+  padding: 10px 14px 8px 18px;
+  border-radius: 25px;
+  margin-left: 32px;
+
+  span {
+    transform: translateY(2px);
+  }
+}
+
+.commentRepliesButton:hover {
+  background-color: #3f3f3f;
+}
+
+.commentRepliesChevronOpen {
+  transform: rotate(180deg);
+  transition: transform 0.2s ease;
+}
+
+.commentHeartBadge {
+  display: inline-block;
+  position: relative;
+  height: 20px;
+  margin-left: 10px;
+  transform: translateY(-2px);
+}
+
+.commentHeartBadgeImg {
+  position: absolute;
+  height: 26px;
+  border-radius: 50%;
+}
+
+.commentHeartBadgeWhite {
+  position: absolute;
+  left: 13px;
+  top: 13px;
+  width: 15px;
+  height: 15px;
+  z-index: 1;
+  color: white;
+}
+
+.commentHeartBadgeRed {
+  position: absolute;
+  color: #ff0033;
+  left: 14px;
+  top: 14px;
+  width: 13px;
+  height: 13px;
+  z-index: 2;
+}
