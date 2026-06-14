@@ -36,6 +36,8 @@
   width: 0;
   padding-right: 0;
   transition: width 0.2s ease, padding-right 0.2s ease;
+  height: 100%;
+  display: flex;
 }
 
 :deep(.ft-volume-control:hover .ft-volume-slider-container) {

@@ -53,5 +53,13 @@ export class VolumeControl extends shaka.ui.Element {
       video.volume = parseFloat(this.slider_.value)
       video.muted = this.slider_.value === '0'
     })
+
+    this.eventManager.listen(this.sliderContainer_, 'click', (e) => {
+      if (e.target === this.slider_) return
+      const rect = this.slider_.getBoundingClientRect()
+      const vol = Math.min(1, Math.max(0, (e.clientX - rect.left) / rect.width))
+      video.volume = vol
+      video.muted = vol === 0
+    })
   }
 }
