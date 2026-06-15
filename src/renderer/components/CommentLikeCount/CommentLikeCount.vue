@@ -1,7 +1,7 @@
 <template>
-  <div class="commentLikeCount">
+  <div class="commentLikeCount" v-if="likes !== ' ' || isHearted">
     <div class="commentLikeRow">
-      <template v-if="!hideCommentLikes">
+      <template v-if="likes !== ' '">
         <FontAwesomeIcon
           :icon="['fas', 'thumbs-up']"
         />
