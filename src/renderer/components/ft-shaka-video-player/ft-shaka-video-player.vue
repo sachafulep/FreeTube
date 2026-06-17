@@ -77,19 +77,17 @@
         <span>{{ $t('Video.Player.Stats.Dropped Frames / Total Frames', stats.frames) }}</span>
       </template>
     </div>
-    <Transition name="fade">
-      <div
-        v-if="showValueChangePopup"
-        class="valueChangePopup"
-        :class="{ 'invert-content-order': invertValueChangeContentOrder }"
-      >
-        <font-awesome-icon
-          v-if="valueChangeIcon"
-          :icon="['fas', valueChangeIcon]"
-        />
-        <span>{{ valueChangeMessage }}</span>
-      </div>
-    </Transition>
+    <div
+      v-if="showValueChangePopup"
+      class="valueChangePopup"
+      :class="{ 'invert-content-order': invertValueChangeContentOrder }"
+    >
+      <font-awesome-icon
+        v-if="valueChangeIcon"
+        :icon="['fas', valueChangeIcon]"
+      />
+      <span v-if="valueChangeMessage">{{ valueChangeMessage }}</span>
+    </div>
     <div
       v-if="showOfflineMessage"
       class="offlineWrapper"

@@ -2214,7 +2214,7 @@ export default defineComponent({
           : { icon: 'arrow-left', invertContentOrder: false }
         // `+value` converts string back to float
         const formattedSeconds = +Math.abs(seconds).toFixed(2)
-        showValueChange(`${formattedSeconds}s`, popUpLayout.icon, popUpLayout.invertContentOrder)
+        showValueChange(`${formattedSeconds}`, popUpLayout.icon)
       }
 
       showOverlayControls()
@@ -2455,7 +2455,7 @@ export default defineComponent({
 
             const messageIcon = isMuted ? 'volume-mute' : 'volume-high'
             const message = isMuted ? '0%' : `${Math.round(video_.volume * 100)}%`
-            showValueChange(message, messageIcon)
+            showValueChange(null, messageIcon)
           }
           break
         case KeyboardShortcuts.VIDEO_PLAYER.GENERAL.CAPTIONS: {
@@ -3417,7 +3417,7 @@ export default defineComponent({
 
       valueChangeTimeout = setTimeout(() => {
         showValueChangePopup.value = false
-      }, 2000)
+      }, 800)
 
       showOverlayControls()
     }
