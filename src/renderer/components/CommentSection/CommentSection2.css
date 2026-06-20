@@ -1,5 +1,5 @@
 .getCommentsTitle, .hideComments, .commentSort,
-.commentSubscribedIcon {
+.commentSubscribedIcon, .getMoreComments {
   display: none;
 }
 
