@@ -2327,12 +2327,19 @@ export default defineComponent({
      * @param {KeyboardEvent} event the keyboard event
      * @param {string} direction the direction of the jump either previous or next
      */
-    function canChapterJump(event, direction) {
-      const currentChapter = props.currentChapterIndex
+    function canChapterJump(event) {
       return props.chapters.length > 0 &&
-        (direction === 'previous' ? currentChapter > 0 : props.chapters.length - 1 !== currentChapter) &&
         ((process.platform !== 'darwin' && event.ctrlKey) ||
           (process.platform === 'darwin' && event.metaKey))
+    }
+
+    function getChapterIndexFromCurrentTime(currentTime) {
+      for (let i = props.chapters.length - 1; i >= 0; i--) {
+        if (currentTime >= props.chapters[i].startSeconds) {
+          return i
+        }
+      }
+      return 0
     }
 
     /**
@@ -2490,10 +2497,15 @@ export default defineComponent({
             break
           }
           event.preventDefault()
-          if (canChapterJump(event, 'previous')) {
+          if (canChapterJump(event)) {
             // Jump to the previous chapter
-            video_.currentTime = props.chapters[props.currentChapterIndex - 1].startSeconds
-            showOverlayControls()
+            // Compute index from video_.currentTime (not props.currentChapterIndex) so rapid presses
+            // correctly chain — the prop lags behind until the parent receives a timeupdate event
+            const chapterIndex = getChapterIndexFromCurrentTime(video_.currentTime)
+            if (chapterIndex > 0) {
+              video_.currentTime = props.chapters[chapterIndex - 1].startSeconds
+              showOverlayControls()
+            }
           } else {
             // Rewind by the time-skip interval (in seconds)
             seekBySeconds(-defaultSkipInterval.value * player.getPlaybackRate(), false, true)
@@ -2504,10 +2516,14 @@ export default defineComponent({
             break
           }
           event.preventDefault()
-          if (canChapterJump(event, 'next')) {
+          if (canChapterJump(event)) {
             // Jump to the next chapter
-            video_.currentTime = (props.chapters[props.currentChapterIndex + 1].startSeconds)
-            showOverlayControls()
+            // Same reasoning: derive index from video_.currentTime to handle rapid presses correctly
+            const chapterIndex = getChapterIndexFromCurrentTime(video_.currentTime)
+            if (chapterIndex < props.chapters.length - 1) {
+              video_.currentTime = props.chapters[chapterIndex + 1].startSeconds
+              showOverlayControls()
+            }
           } else {
             // Fast-Forward by the time-skip interval (in seconds)
             seekBySeconds(defaultSkipInterval.value * player.getPlaybackRate(), false, true)
