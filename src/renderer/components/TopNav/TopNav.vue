@@ -664,4 +664,3 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped lang="scss" src="./TopNav.scss" />
-<style scoped lang="scss" src="./TopNav2.scss" />

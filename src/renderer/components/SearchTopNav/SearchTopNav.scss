@@ -1,0 +1,27 @@
+.searchTopNav {
+  align-items: center;
+  backdrop-filter: blur(16px);
+  background-color: rgb(15 15 15 / 70%);
+  block-size: unset;
+  box-shadow: none;
+  display: flex;
+  inline-size: 100%;
+  inset-block-start: 0;
+  justify-content: center;
+  line-height: unset;
+  margin-block-end: 10px;
+  padding: 14px 22px;
+  position: sticky;
+  z-index: 4;
+}
+
+.searchContainer {
+  align-items: center;
+  display: flex;
+  inline-size: 100%;
+  max-inline-size: 440px;
+}
+
+.searchInput {
+  flex: 1;
+}

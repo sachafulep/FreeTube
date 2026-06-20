@@ -9,7 +9,7 @@
       hideLabelsSideBar: hideLabelsSideBar && !isSideNavOpen
     }"
   >
-    <TopNav
+    <SearchTopNav
       :inert="isAnyPromptOpen"
     />
     <SideNav
@@ -111,7 +111,7 @@ import { useI18n } from './composables/use-i18n-polyfill'
 import { useRoute, useRouter } from 'vue-router'
 
 import FtFlexBox from './components/ft-flex-box/ft-flex-box.vue'
-import TopNav from './components/TopNav/TopNav.vue'
+import SearchTopNav from './components/SearchTopNav/SearchTopNav.vue'
 import SideNav from './components/SideNav/SideNav.vue'
 import FtNotificationBanner from './components/FtNotificationBanner/FtNotificationBanner.vue'
 import FtPrompt from './components/FtPrompt/FtPrompt.vue'
