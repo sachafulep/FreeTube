@@ -408,3 +408,4 @@ function updateSubscriptionDetails(results) {
 </script>
 
 <style scoped src="./SearchPage.css" />
+<style scoped src="./SearchPage2.css" />
