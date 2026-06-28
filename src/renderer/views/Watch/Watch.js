@@ -493,6 +493,7 @@ export default defineComponent({
               (item.type === 'LockupView' && item.content_type === 'VIDEO')
           })
           .map(parseLocalWatchNextVideo).filter(_ => _)
+          .filter((video) => video.viewCount >= 1000)
           // place watched recommended videos last
           .sort(this.sortWatchedVideosLast) ?? []
 
