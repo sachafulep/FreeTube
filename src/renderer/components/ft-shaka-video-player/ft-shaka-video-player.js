@@ -808,11 +808,15 @@ export default defineComponent({
     const uiConfig = computed(() => {
       const controlPanelElements = [
         'ft_play_pause',
-        'ft_skip_previous',
-        'ft_skip_next',
         'ft_volume',
         'ft_time_display',
         ...(props.chapters.length > 0 ? ['ft_chapter_name'] : []),
+        // 'ft_skip_previous',
+        // 'play_pause',
+        // 'ft_skip_next',
+        // 'mute',
+        // 'volume',
+        // 'time_and_duration',
         'spacer'
       ]
 
@@ -868,7 +872,7 @@ export default defineComponent({
           'ft_audio_tracks',
           'captions',
           'playback_rate',
-          props.format === 'legacy' ? 'ft_legacy_quality' : 'ft_quality',
+          props.format === 'legacy' ? 'ft_legacy_quality' : 'quality',
           'chapter',
           'loop',
           'recenter_vr',
