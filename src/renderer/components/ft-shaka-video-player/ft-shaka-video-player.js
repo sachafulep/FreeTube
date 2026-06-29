@@ -19,6 +19,7 @@ import { setupSeekBarChapterTooltip } from './player-components2/SeekBarChapterT
 import { QualityButton } from './player-components2/QualityButton'
 import { TimeDisplay } from './player-components2/TimeDisplay'
 import { VolumeControl } from './player-components2/VolumeControl'
+import WatchSidebarChapters from '../WatchSidebarChapters/WatchSidebarChapters.vue'
 import {
   deduplicateAudioTracks,
   findMostSimilarAudioBandwidth,
@@ -73,6 +74,9 @@ const LOCALE_MAPPINGS = new Map(process.env.SHAKA_LOCALE_MAPPINGS)
 
 export default defineComponent({
   name: 'FtShakaVideoPlayer',
+  components: {
+    WatchSidebarChapters,
+  },
   props: {
     format: {
       type: String,
@@ -227,6 +231,8 @@ export default defineComponent({
     const activeLegacyFormat = shallowRef(null)
 
     const fullWindowEnabled = ref(false)
+    const showChapterOverlay = ref(false)
+    const isFullscreen = ref(false)
     const startInFullwindow = props.startInFullwindow
     let startInFullscreen = props.startInFullscreen
     let startInPip = props.startInPip
@@ -1095,6 +1101,10 @@ export default defineComponent({
       if (newValue !== oldValue && ui && !isDestroyingPlayer) {
         configureUI()
       }
+    })
+
+    watch(fullWindowEnabled, (enabled) => {
+      if (!enabled) showChapterOverlay.value = false
     })
 
     watch(() => props.currentChapterIndex, (index) => {
@@ -2047,7 +2057,11 @@ export default defineComponent({
 
     function registerChapterNameButton() {
       events.addEventListener('toggleSidebarChapters', () => {
-        emit('toggle-sidebar-chapters')
+        if (fullWindowEnabled.value || isFullscreen.value) {
+          showChapterOverlay.value = !showChapterOverlay.value
+        } else {
+          emit('toggle-sidebar-chapters')
+        }
       })
 
       class ChapterNameButtonFactory {
@@ -2842,6 +2856,8 @@ export default defineComponent({
     }
 
     function fullscreenChangeHandler() {
+      isFullscreen.value = document.fullscreenElement !== null
+      if (!isFullscreen.value) showChapterOverlay.value = false
       nextTick(showOverlayControls)
     }
 
@@ -3538,6 +3554,12 @@ export default defineComponent({
       valueChangeIcon,
       showValueChangePopup,
       invertValueChangeContentOrder,
+
+      showChapterOverlay,
+      handleChapterOverlayTimestamp(startSeconds) {
+        video.value.currentTime = startSeconds
+        showChapterOverlay.value = false
+      },
     }
   }
 })

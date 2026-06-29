@@ -89,6 +89,17 @@
       <span v-if="valueChangeMessage">{{ valueChangeMessage }}</span>
     </div>
     <div
+      v-show="showChapterOverlay"
+      class="chapterOverlay"
+    >
+      <WatchSidebarChapters
+        :chapters="chapters"
+        :current-chapter-index="currentChapterIndex"
+        :is-visible="showChapterOverlay"
+        @timestamp-event="handleChapterOverlayTimestamp"
+      />
+    </div>
+    <div
       v-if="showOfflineMessage"
       class="offlineWrapper"
     >
