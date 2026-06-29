@@ -357,23 +357,31 @@ function runApp() {
           return
         }
 
-        const newWindow = await createWindow({
-          replaceMainWindow: false,
-          showWindowNow: true,
-        })
+        const availableWindow = findNonVideoWindow()
+        if (availableWindow) {
+          if (availableWindow.isMinimized()) availableWindow.restore()
+          availableWindow.show()
+          availableWindow.focus()
+          if (newStartupUrl) availableWindow.webContents.send(IpcChannels.OPEN_URL, newStartupUrl)
+        } else {
+          const newWindow = await createWindow({
+            replaceMainWindow: false,
+            showWindowNow: true,
+          })
 
-        /**
-         * @param {import('electron').IpcMainEvent} event
-         */
-        const readyHandler = (event) => {
-          if (isFreeTubeUrl(event.senderFrame.url)) {
-            newWindow.webContents.ipc.off(IpcChannels.APP_READY, readyHandler)
+          /**
+           * @param {import('electron').IpcMainEvent} event
+           */
+          const readyHandler = (event) => {
+            if (isFreeTubeUrl(event.senderFrame.url)) {
+              newWindow.webContents.ipc.off(IpcChannels.APP_READY, readyHandler)
 
-            event.reply(IpcChannels.OPEN_URL, newStartupUrl)
+              event.reply(IpcChannels.OPEN_URL, newStartupUrl)
+            }
           }
-        }
 
-        newWindow.webContents.ipc.on(IpcChannels.APP_READY, readyHandler)
+          newWindow.webContents.ipc.on(IpcChannels.APP_READY, readyHandler)
+        }
       }
     })
   }
@@ -2081,6 +2089,14 @@ function runApp() {
 
   // *********** //
 
+  function findNonVideoWindow() {
+    return BrowserWindow.getAllWindows().find(win => {
+      if (!isFreeTubeUrl(win.webContents.getURL())) return false
+      const hash = win.webContents.getURL().split('#')[1] ?? ''
+      return !hash.startsWith('/watch/')
+    }) ?? null
+  }
+
   function syncOtherWindows(channel, event, payload) {
     const otherWindows = BrowserWindow.getAllWindows().filter((window) => {
       return window.webContents.id !== event.sender.id && isFreeTubeUrl(window.webContents.getURL())
@@ -2189,23 +2205,31 @@ function runApp() {
       return
     }
 
-    const newWindow = await createWindow({
-      replaceMainWindow: false,
-      showWindowNow: true,
-    })
+    const availableWindow = findNonVideoWindow()
+    if (availableWindow) {
+      if (availableWindow.isMinimized()) availableWindow.restore()
+      availableWindow.show()
+      availableWindow.focus()
+      availableWindow.webContents.send(IpcChannels.OPEN_URL, newStartupUrl)
+    } else {
+      const newWindow = await createWindow({
+        replaceMainWindow: false,
+        showWindowNow: true,
+      })
 
-    /**
-     * @param {import('electron').IpcMainEvent} event
-     */
-    const readyHandler = (event) => {
-      if (isFreeTubeUrl(event.senderFrame.url)) {
-        newWindow.webContents.ipc.off(IpcChannels.APP_READY, readyHandler)
+      /**
+       * @param {import('electron').IpcMainEvent} event
+       */
+      const readyHandler = (event) => {
+        if (isFreeTubeUrl(event.senderFrame.url)) {
+          newWindow.webContents.ipc.off(IpcChannels.APP_READY, readyHandler)
 
-        event.reply(IpcChannels.OPEN_URL, newStartupUrl)
+          event.reply(IpcChannels.OPEN_URL, newStartupUrl)
+        }
       }
-    }
 
-    newWindow.webContents.ipc.on(IpcChannels.APP_READY, readyHandler)
+      newWindow.webContents.ipc.on(IpcChannels.APP_READY, readyHandler)
+    }
   })
 
   app.on('web-contents-created', (_, webContents) => {
