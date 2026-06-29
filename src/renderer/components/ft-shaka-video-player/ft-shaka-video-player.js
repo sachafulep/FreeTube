@@ -2369,6 +2369,10 @@ export default defineComponent({
      * @param {KeyboardEvent} event
      */
     function keyboardShortcutHandler(event) {
+      if (!player || !hasLoaded.value) {
+        return
+      }
+
       if (document.activeElement.classList.contains('ft-input') || event.altKey) {
         return
       }
