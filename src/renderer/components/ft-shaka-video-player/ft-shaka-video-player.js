@@ -2522,7 +2522,7 @@ export default defineComponent({
 
             const messageIcon = isMuted ? 'volume-mute' : 'volume-high'
             const message = isMuted ? '0%' : `${Math.round(video_.volume * 100)}%`
-            showValueChange(message, messageIcon)
+            showValueChange(null, messageIcon)
           }
           blurTooltipButtons()
           break
