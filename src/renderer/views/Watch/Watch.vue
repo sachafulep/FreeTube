@@ -32,6 +32,7 @@
           :video-id="videoId"
           :chapters="videoChapters"
           :current-chapter-index="videoCurrentChapterIndex"
+          :chapters-src="chaptersSrc"
           :title="videoTitle"
           :theatre-possible="theatrePossible"
           :use-theatre-mode="useTheatreMode"

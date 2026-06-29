@@ -16,6 +16,7 @@ import WatchVideoRecommendations from '../../components/WatchVideoRecommendation
 import FtAgeRestricted from '../../components/FtAgeRestricted/FtAgeRestricted.vue'
 import { calculateColorLuminance } from '../../helpers/colors'
 import {
+  buildChaptersVttFile,
   buildVTTFileLocally,
   copyToClipboard,
   extractNumberFromString,
@@ -322,6 +323,16 @@ export default defineComponent({
       // `this.$refs.player?.hasLoaded` cannot be used in computed property
       return !this.isLoading
     },
+
+    chaptersSrc() {
+      if (this.videoChapters.length > 0) {
+        const vttText = buildChaptersVttFile(this.videoChapters)
+
+        return `data:text/vtt,${encodeURIComponent(vttText)}`
+      } else {
+        return ''
+      }
+    }
   },
   watch: {
     async $route() {
@@ -483,6 +494,19 @@ export default defineComponent({
         const videoInfo = await getLocalVideoInfo(this.videoId)
         const { info: result, poToken, clientInfo, adEndTimeUnixMs } = videoInfo
 
+        const playabilityStatus = result.playability_status
+        this.playabilityStatus = playabilityStatus.status
+
+        if (playabilityStatus.status === 'LOGIN_REQUIRED' && playabilityStatus.error_screen?.reason?.text === 'Private video') {
+          // Private videos cannot be played in FreeTube, as they require to be logged as the owner of the video
+          // so there is no point continuing or trying any other backends as it will always fail
+          this.errorMessage = this.$t('Video.Private')
+          this.thumbnail = this.getUnavailableVideoThumbnail()
+          this.isLoading = false
+          this.updateTitle()
+          return
+        }
+
         this.adEndTimeUnixMs = adEndTimeUnixMs
 
         this.isFamilyFriendly = result.basic_info.is_family_safe
@@ -584,6 +608,7 @@ export default defineComponent({
         }
 
         let chapters = []
+        let chaptersKind = 'chapters'
         if (!this.hideChapters) {
           const rawChapters = result.player_overlays?.decorated_player_bar?.player_bar?.markers_map
             ?.find(marker => marker.marker_key === 'DESCRIPTION_CHAPTERS')?.value.chapters
@@ -617,7 +642,7 @@ export default defineComponent({
                   })
                 }
               }
-              this.videoChaptersKind = 'keyMoments'
+              chaptersKind = 'keyMoments'
             } else {
               chapters = this.extractChaptersFromDescription(result.basic_info.short_description ?? result.secondary_info.description.text)
             }
@@ -635,9 +660,7 @@ export default defineComponent({
         }
 
         this.videoChapters = chapters
-
-        const playabilityStatus = result.playability_status
-        this.playabilityStatus = playabilityStatus.status
+        this.videoChaptersKind = chaptersKind
 
         // The apostrophe is intentionally that one (char code 8217), because that is the one YouTube uses
         const BOT_MESSAGE = 'Sign in to confirm you’re not a bot'
@@ -1036,6 +1059,7 @@ export default defineComponent({
             }
           }
           this.videoChapters = chapters
+          this.videoChaptersKind = 'chapters'
 
           if (this.isLive || this.isPostLiveDvr) {
             // The live DASH manifest is currently unusable as it returns 403s after 1 minute of playback
@@ -1517,9 +1541,6 @@ export default defineComponent({
 
     handleRouteChange: function () {
       this.abortAutoplayCountdown(true)
-      this.videoChapters = []
-      this.videoChaptersKind = 'chapters'
-
       this.handleWatchProgressAutoSave()
     },
 
@@ -1667,6 +1688,7 @@ export default defineComponent({
           colorPrimaries: format.color_info?.primaries
         })),
         captions: this.captions,
+        chapters: this.videoChapters,
         storyboards
       }
 

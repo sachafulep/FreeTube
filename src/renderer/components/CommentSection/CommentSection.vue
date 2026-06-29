@@ -59,7 +59,8 @@
         :key="comment.id"
         class="comment"
       >
-        <router-link
+        <component
+          :is="enableChannelLinks ? 'router-link' : 'div'"
           :to="`/channel/${comment.authorLink}`"
           tabindex="-1"
         >
@@ -77,7 +78,7 @@
             alt=""
             class="commentThumbnail"
           >
-        </router-link>
+        </component>
         <p
           v-if="comment.isPinned"
           class="commentPinned"
@@ -90,7 +91,8 @@
         <p
           class="commentAuthorWrapper"
         >
-          <router-link
+          <component
+            :is="enableChannelLinks ? 'router-link' : 'span'"
             class="commentAuthor"
             dir="auto"
             :class="{
@@ -99,7 +101,7 @@
             :to="`/channel/${comment.authorLink}`"
           >
             {{ comment.author }}
-          </router-link>
+          </component>
           <img
             v-if="comment.isMember"
             :src="comment.memberIconUrl"
@@ -143,7 +145,8 @@
             :key="replyIndex"
             class="comment"
           >
-            <router-link
+            <component
+              :is="enableChannelLinks ? 'router-link' : 'div'"
               :to="`/channel/${reply.authorLink}`"
               tabindex="-1"
             >
@@ -161,9 +164,10 @@
                 alt=""
                 class="commentThumbnail"
               >
-            </router-link>
+            </component>
             <p class="commentAuthorWrapper">
-              <router-link
+              <component
+                :is="enableChannelLinks ? 'router-link' : 'span'"
                 class="commentAuthor"
                 dir="auto"
                 :class="{
@@ -172,7 +176,7 @@
                 :to="`/channel/${reply.authorLink}`"
               >
                 {{ reply.author }}
-              </router-link>
+              </component>
               <img
                 v-if="reply.isMember"
                 :src="reply.memberIconUrl"
@@ -417,6 +421,8 @@ function handleSortChange() {
 }
 
 const emit = defineEmits(['timestamp-event'])
+
+const enableChannelLinks = computed(() => !store.getters.getDisableChannelLinks)
 
 /**
  * @param {number} timestamp

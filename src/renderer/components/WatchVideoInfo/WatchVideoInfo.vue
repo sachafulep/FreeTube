@@ -378,6 +378,8 @@ function removeFromQuickBookmarkPlaylist() {
   // TODO: Maybe show playlist name
   showToast(t('Video.Video has been removed from your saved list'))
 }
+
+const enableChannelLinks = computed(() => !store.getters.getDisableChannelLinks)
 </script>
 
 <style scoped src="./WatchVideoInfo.css" />
