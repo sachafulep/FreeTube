@@ -63,25 +63,31 @@
 }
 
 :deep(.shaka-player-ui-thumbnail-time-container) {
-  gap: 6px;
   background: rgba(0, 0, 0, .5);
   border-radius: 20px;
   padding: 10px 16px !important;
-  flex-direction: row-reverse;
 }
 
 :deep(.shaka-player-ui-thumbnail-time) {
-  background: transparent !important;
-  font-size: 13px !important;
-  transform: translateY(1px);
-  padding: 0 !important;
+  display: none;
 }
 
-:deep(.ft-seek-chapter-name) {
-  transform: translateY(1px);
+:deep(.ft-seek-tooltip) {
+  display: flex;
+  gap: 6px;
+  align-items: baseline;
   font-size: 13px;
+}
+
+:deep(.ft-seek-tooltip-time) {
+  color: white;
+  transform: translateY(1px);
+}
+
+:deep(.ft-seek-tooltip-chapter) {
   color: white;
   font-weight: 600;
+  transform: translateY(1px);
   white-space: nowrap;
   max-width: 200px;
   overflow: hidden;
