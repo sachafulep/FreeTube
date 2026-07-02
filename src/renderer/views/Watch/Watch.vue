@@ -180,11 +180,16 @@
         :class="{ theatreWatchVideo: useTheatreMode }"
         @timestamp-event="changeTimestamp"
       />
+      <watch-video-tabs
+        v-if="!isLoading"
+        v-model="narrowLayoutTab"
+        class="watchVideo"
+      />
       <CommentSection
         v-if="!isLoading && !isLive && !hideComments"
         :id="videoId"
         class="watchVideo"
-        :class="{ theatreWatchVideo: useTheatreMode }"
+        :class="{ theatreWatchVideo: useTheatreMode, tabHidden: narrowLayoutTab !== 'comments' }"
         :channel-thumbnail="channelThumbnail"
         :channel-name="channelName"
         :video-player-ready="videoPlayerLoaded"
@@ -194,6 +199,7 @@
     <div
       v-if="(isFamilyFriendly || !showFamilyFriendlyOnly)"
       class="sidebarArea"
+      :class="{ tabHidden: narrowLayoutTab !== 'suggested' }"
     >
       <watch-sidebar-chapters
         v-if="!isLoading && videoChapters.length > 0"

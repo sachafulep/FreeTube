@@ -15,4 +15,10 @@
   @media only screen and (width <= 1050px) {
     grid-template-columns: auto;
   }
+
+  @media only screen and (width <= 1050px) {
+    .tabHidden {
+      display: none;
+    }
+  }
 }

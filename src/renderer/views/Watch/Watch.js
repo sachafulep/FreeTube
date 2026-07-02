@@ -13,6 +13,7 @@ import CommentSection from '../../components/CommentSection/CommentSection.vue'
 import WatchVideoLiveChat from '../../components/WatchVideoLiveChat/WatchVideoLiveChat.vue'
 import WatchVideoPlaylist from '../../components/WatchVideoPlaylist/WatchVideoPlaylist.vue'
 import WatchVideoRecommendations from '../../components/WatchVideoRecommendations/WatchVideoRecommendations.vue'
+import WatchVideoTabs from '../../components/WatchVideoTabs/WatchVideoTabs.vue'
 import FtAgeRestricted from '../../components/FtAgeRestricted/FtAgeRestricted.vue'
 import { calculateColorLuminance } from '../../helpers/colors'
 import {
@@ -76,6 +77,7 @@ export default defineComponent({
     'watch-video-live-chat': WatchVideoLiveChat,
     'watch-video-playlist': WatchVideoPlaylist,
     'watch-video-recommendations': WatchVideoRecommendations,
+    'watch-video-tabs': WatchVideoTabs,
     'ft-age-restricted': FtAgeRestricted
   },
   beforeRouteLeave: async function (to, from, next) {
@@ -174,6 +176,7 @@ export default defineComponent({
       streamingDataExpiryDate: null,
       currentPlaybackRate: null,
       showSidebarChapters: false,
+      narrowLayoutTab: 'suggested',
     }
   },
   computed: {
