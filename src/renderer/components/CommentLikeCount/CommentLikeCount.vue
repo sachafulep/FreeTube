@@ -1,12 +1,17 @@
 <template>
   <div class="commentLikeCount" v-if="likes !== ' ' || isHearted">
     <div class="commentLikeRow">
-      <template v-if="likes !== ' '">
-        <FontAwesomeIcon
-          :icon="['fas', 'thumbs-up']"
-        />
-        <span>{{ likes }}</span>
-      </template>
+      <div
+        v-if="likes !== ' '" 
+        class="commentLikes"
+        >
+        <template v-if="likes !== ' '">
+          <FontAwesomeIcon
+            :icon="['fas', 'thumbs-up']"
+          />
+          <span>{{ likes }}</span>
+        </template>
+      </div>
       <span
         v-if="isHearted"
         class="commentHeartBadge"

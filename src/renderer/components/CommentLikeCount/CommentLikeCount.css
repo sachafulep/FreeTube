@@ -7,7 +7,7 @@
 .commentLikeRow {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 16px;
   font-size: 13px;
   height: 26px;
   margin-left: 50px;
@@ -16,6 +16,13 @@
     color: #aaaaaa;
     transform: translateY(1px);
   }
+}
+
+.commentLikes {
+  margin-top: 10px;
+  display: flex;
+  gap: 6px;
+  align-items: center;
 }
 
 .commentRepliesButton {
@@ -51,7 +58,6 @@
   display: inline-block;
   position: relative;
   height: 20px;
-  margin-left: 10px;
   transform: translateY(-2px);
 }
 
