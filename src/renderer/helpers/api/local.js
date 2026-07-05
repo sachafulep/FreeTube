@@ -1302,6 +1302,16 @@ export function parseChannelHomeTab(homeTab, channelId, channelName) {
   })
   return shelves
 }
+
+const SHORT_DURATION_THRESHOLD_SECONDS = 120
+
+/**
+ * @param {{ lengthSeconds: number | '' }} video parsed video, as returned by `parseLocalPlaylistVideo`
+ */
+export function isPlaylistVideoShortDuration(video) {
+  return typeof video.lengthSeconds === 'number' && video.lengthSeconds < SHORT_DURATION_THRESHOLD_SECONDS
+}
+
 /**
  * @param {import('youtubei.js').YTNodes.PlaylistVideo|import('youtubei.js').YTNodes.ReelItem|import('youtubei.js').YTNodes.ShortsLockupView} video
  */

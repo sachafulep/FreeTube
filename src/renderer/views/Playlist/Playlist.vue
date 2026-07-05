@@ -192,6 +192,7 @@ import {
   extractLocalCacheablePlaylistContinuation,
   getLocalPlaylist,
   getLocalPlaylistContinuation,
+  isPlaylistVideoShortDuration,
   parseLocalPlaylistVideo,
 } from '../../helpers/api/local'
 import {
@@ -466,11 +467,13 @@ async function getPlaylistLocal() {
       }
     }
 
-    const playlistItems_ = result.items.map(parseLocalPlaylistVideo)
+    const playlistItems_ = result.items
+      .map(parseLocalPlaylistVideo)
+      .filter(video => !isPlaylistVideoShortDuration(video))
 
     playlistTitle.value = result.info.title
     playlistDescription.value = result.info.description ?? ''
-    firstVideoId.value = playlistItems_[0].videoId
+    firstVideoId.value = playlistItems_[0]?.videoId ?? ''
     playlistThumbnail.value = result.info.thumbnails[0].url
     viewCount.value = result.info.views.toLowerCase() === 'no views' ? 0 : extractNumberFromString(result.info.views)
     videoCount.value = extractNumberFromString(result.info.total_items)
@@ -675,7 +678,9 @@ async function getNextPageLocal() {
   let shouldGetNextPage = false
 
   if (result) {
-    const parsedVideos = result.items.map(parseLocalPlaylistVideo)
+    const parsedVideos = result.items
+      .map(parseLocalPlaylistVideo)
+      .filter(video => !isPlaylistVideoShortDuration(video))
     playlistItems.value = playlistItems.value.concat(parsedVideos)
 
     if (result.has_continuation) {

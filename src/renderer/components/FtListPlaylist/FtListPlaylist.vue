@@ -101,7 +101,7 @@ import FtIconButton from '../FtIconButton/FtIconButton.vue'
 
 import store from '../../store/index'
 
-import { getLocalPlaylist, parseLocalPlaylistVideo } from '../../helpers/api/local'
+import { getLocalPlaylist, isPlaylistVideoShortDuration, parseLocalPlaylistVideo } from '../../helpers/api/local'
 import { showToast } from '../../helpers/utils'
 import thumbnailPlaceholder from '../../assets/img/thumbnail_placeholder.svg'
 
@@ -181,7 +181,9 @@ async function playPlaylist() {
 
   try {
     const result = await getLocalPlaylist(playlistId)
-    const firstVideo = result.items[0]
+    const firstVideo = result.items
+      .map(parseLocalPlaylistVideo)
+      .find(video => !isPlaylistVideoShortDuration(video))
 
     if (!firstVideo) {
       router.push(playlistPageLinkTo.value)
@@ -189,7 +191,7 @@ async function playPlaylist() {
     }
 
     router.push({
-      path: `/watch/${parseLocalPlaylistVideo(firstVideo).videoId}`,
+      path: `/watch/${firstVideo.videoId}`,
       query: {
         playlistId,
         playlistType: '',
