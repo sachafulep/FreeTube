@@ -10,11 +10,12 @@
     <div
       class="videoThumbnail"
     >
-      <RouterLink
+      <a
         class="thumbnailLink"
-        :to="playlistPageLinkTo"
+        :href="playlistPageHref"
         tabindex="-1"
         aria-hidden="true"
+        @click.prevent="playPlaylist"
       >
         <img
           alt=""
@@ -22,7 +23,7 @@
           class="thumbnailImage"
           :class="{ blur: blurThumbnails }"
         >
-      </RouterLink>
+      </a>
       <div
         class="videoCountContainer"
       >
@@ -34,9 +35,10 @@
       </div>
     </div>
     <div class="info">
-      <RouterLink
+      <a
         class="title"
-        :to="playlistPageLinkTo"
+        :href="playlistPageHref"
+        @click.prevent="playPlaylist"
       >
         <h3
           class="h3Title"
@@ -44,7 +46,7 @@
         >
           {{ titleForDisplay }}
         </h3>
-      </RouterLink>
+      </a>
       <div class="infoLine">
         <RouterLink
           v-if="channelId && enableChannelLinks"
@@ -91,13 +93,15 @@
 
 <script setup>
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { useI18n } from '../../composables/use-i18n-polyfill'
 
 import FtIconButton from '../FtIconButton/FtIconButton.vue'
 
 import store from '../../store/index'
 
+import { getLocalPlaylist, parseLocalPlaylistVideo } from '../../helpers/api/local'
 import { showToast } from '../../helpers/utils'
 import thumbnailPlaceholder from '../../assets/img/thumbnail_placeholder.svg'
 
@@ -117,6 +121,7 @@ const props = defineProps({
 })
 
 const { t } = useI18n()
+const router = useRouter()
 
 let playlistId = ''
 let title = ''
@@ -162,6 +167,42 @@ const playlistPageLinkTo = computed(() => ({
     searchQueryText: props.searchQueryText,
   },
 }))
+
+const playlistPageHref = computed(() => router.resolve(playlistPageLinkTo.value).href)
+const isLoadingFirstVideo = ref(false)
+
+async function playPlaylist() {
+  if (props.data.dataSource !== 'local' || isLoadingFirstVideo.value) {
+    router.push(playlistPageLinkTo.value)
+    return
+  }
+
+  isLoadingFirstVideo.value = true
+
+  try {
+    const result = await getLocalPlaylist(playlistId)
+    const firstVideo = result.items[0]
+
+    if (!firstVideo) {
+      router.push(playlistPageLinkTo.value)
+      return
+    }
+
+    router.push({
+      path: `/watch/${parseLocalPlaylistVideo(firstVideo).videoId}`,
+      query: {
+        playlistId,
+        playlistType: '',
+      },
+    })
+  } catch (err) {
+    console.error(err)
+    showToast('Unable to play this playlist')
+    router.push(playlistPageLinkTo.value)
+  } finally {
+    isLoadingFirstVideo.value = false
+  }
+}
 
 /** @type {import('vue').ComputedRef<'local' | 'invidious'>} */
 const backendPreference = computed(() => store.getters.getBackendPreference)
