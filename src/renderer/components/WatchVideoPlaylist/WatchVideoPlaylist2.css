@@ -1,0 +1,59 @@
+.channelName, .playlistIndex {
+  display: none;
+}
+
+.watchVideoPlaylist {
+  background-color: #212121;
+  border-radius: 10px;
+  height: 490px !important;
+  margin-bottom: 16px !important;
+  overflow: hidden;
+}
+
+.playlistTitle {
+  border-radius: 10px 10px 0 0;
+  padding: 16px;
+  margin: 0 !important;
+  background-color: #1b1b1b !important;
+}
+
+.playlistButtons {
+  margin: 0;
+  padding: 0 6px 6px 6px;
+  background-color: #1b1b1b !important;
+}
+
+.playlistItemsWrapper {
+  height: 400px;
+}
+
+.playlistItem {
+  margin: 0 !important;
+  padding: 12px 12px 12px 0;
+}
+
+.playlistItemActive {
+  background-color: #373737;
+}
+
+:deep(.videoIndex) {
+  font-size: 12px;
+}
+
+:deep(.h3Title) {
+  font-size: 15px !important;
+  overflow: hidden;
+  display: -webkit-box;
+  line-clamp: 3;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+:deep(.infoLine) {
+  display: none;
+}
+
+:deep(.thumbnailImage) {
+  width: 100px;
+  height: 56px !important;
+}

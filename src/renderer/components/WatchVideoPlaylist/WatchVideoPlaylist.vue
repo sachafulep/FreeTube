@@ -136,6 +136,7 @@
           :key="item.playlistItemId || item.videoId"
           ref="playlistItem"
           class="playlistItem"
+          :class="{ playlistItemActive: currentVideoIndexZeroBased === index }"
           :data="item"
           :playlist-id="playlistId"
           :playlist-type="playlistType"
@@ -816,3 +817,4 @@ defineExpose({
 </script>
 
 <style scoped src="./WatchVideoPlaylist.css" />
+<style scoped src="./WatchVideoPlaylist2.css" />
