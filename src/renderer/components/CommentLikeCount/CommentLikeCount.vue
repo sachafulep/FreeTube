@@ -4,6 +4,7 @@
       <div
         v-if="likes !== ' '" 
         class="commentLikes"
+        :class="{commentLikesMargin: isHearted}"
         >
         <template v-if="likes !== ' '">
           <FontAwesomeIcon

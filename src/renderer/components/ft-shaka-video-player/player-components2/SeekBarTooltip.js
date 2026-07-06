@@ -9,11 +9,18 @@ export function setupSeekBarTooltip(containerEl, videoEl, getChapters) {
   const timeEl = document.createElement('span')
   timeEl.classList.add('ft-seek-tooltip-time')
 
-  const chapterEl = document.createElement('span')
-  chapterEl.classList.add('ft-seek-tooltip-chapter')
-
   tooltipEl.appendChild(timeEl)
-  tooltipEl.appendChild(chapterEl)
+
+  const hasChapters = getChapters().length > 0
+
+  let chapterEl = null
+
+  if (hasChapters) {
+    chapterEl = document.createElement('span')
+    chapterEl.classList.add('ft-seek-tooltip-chapter')
+    tooltipEl.appendChild(chapterEl)
+  }
+
   thumbnailTimeContainer.insertAdjacentElement('afterbegin', tooltipEl)
 
   const formatTime = (seconds) => {
@@ -33,18 +40,19 @@ export function setupSeekBarTooltip(containerEl, videoEl, getChapters) {
 
     timeEl.textContent = isFinite(time) ? formatTime(time) : ''
 
-    const chapters = getChapters()
-    if (chapters.length > 0) {
+    if (chapterEl) {
+      const chapters = getChapters()
       const chapter = [...chapters].reverse().find(ch => ch.startSeconds <= time)
       chapterEl.textContent = chapter?.title ?? ''
-    } else {
-      chapterEl.textContent = ''
     }
   }
 
   const onMouseLeave = () => {
     timeEl.textContent = ''
-    chapterEl.textContent = ''
+
+    if (chapterEl) {
+      chapterEl.textContent = ''
+    }
   }
 
   seekBarEl.addEventListener('mousemove', onMouseMove)

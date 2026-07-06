@@ -9,7 +9,6 @@
   align-items: center;
   gap: 16px;
   font-size: 13px;
-  height: 26px;
   margin-left: 50px;
 
   span:first-of-type {
@@ -19,10 +18,13 @@
 }
 
 .commentLikes {
-  margin-top: 10px;
   display: flex;
   gap: 6px;
   align-items: center;
+}
+
+.commentLikesMargin {
+  margin-top: 10px;
 }
 
 .commentRepliesButton {
