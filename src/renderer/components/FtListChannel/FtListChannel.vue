@@ -200,3 +200,4 @@ function parseInvidiousData() {
 </script>
 
 <style scoped lang="scss" src="./FtListChannel.scss" />
+<style scoped lang="scss" src="./FtListChannel2.scss" />

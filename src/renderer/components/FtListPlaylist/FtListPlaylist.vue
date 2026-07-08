@@ -324,3 +324,4 @@ function handleExternalPlayer() {
 </script>
 
 <style scoped lang="scss" src="./FtListPlaylist.scss" />
+<style scoped lang="scss" src="./FtListPlaylist2.scss" />
