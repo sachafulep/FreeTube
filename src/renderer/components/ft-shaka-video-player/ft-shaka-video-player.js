@@ -2360,13 +2360,16 @@ export default defineComponent({
      * first it checks whether there are any chapters (the array is also empty if chapters are hidden)
      * it also checks that the approprate combination was used ALT/OPTION on macOS and CTRL everywhere else
      * @param {KeyboardEvent} event the keyboard event
-     * @param {string} direction the direction of the jump either previous or next
      */
     function canChapterJump(event) {
       return props.chapters.length > 0 &&
         ((process.platform !== 'darwin' && event.ctrlKey) ||
           (process.platform === 'darwin' && event.metaKey))
     }
+
+    // How many seconds into a chapter the previous-chapter shortcut still jumps
+    // to the previous chapter, instead of restarting the current one
+    const PREVIOUS_CHAPTER_GRACE_PERIOD = 1
 
     function getChapterIndexFromCurrentTime(currentTime) {
       for (let i = props.chapters.length - 1; i >= 0; i--) {
@@ -2594,11 +2597,16 @@ export default defineComponent({
           }
           event.preventDefault()
           if (canChapterJump(event)) {
-            // Jump to the previous chapter
+            // Restart the current chapter, unless we're within the grace period of its start,
+            // in which case jump to the previous chapter instead
             // Compute index from video_.currentTime (not props.currentChapterIndex) so rapid presses
             // correctly chain — the prop lags behind until the parent receives a timeupdate event
             const chapterIndex = getChapterIndexFromCurrentTime(video_.currentTime)
-            if (chapterIndex > 0) {
+            const currentChapterStart = props.chapters[chapterIndex].startSeconds
+            if (video_.currentTime > currentChapterStart + PREVIOUS_CHAPTER_GRACE_PERIOD) {
+              video_.currentTime = currentChapterStart
+              showOverlayControls()
+            } else if (chapterIndex > 0) {
               video_.currentTime = props.chapters[chapterIndex - 1].startSeconds
               showOverlayControls()
             }
