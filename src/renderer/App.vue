@@ -323,10 +323,27 @@ function openDownloadsPage() {
 /** @type {import('vue').ComputedRef<boolean>} */
 const outlinesHidden = computed(() => store.getters.getOutlinesHidden)
 
+// Elements that natively consume the space key themselves (typing a space or activating the control)
+// and so should be left alone, instead of having the default "scroll the page" action prevented below.
+const SPACE_KEY_NATIVE_TAGS = new Set(['INPUT', 'TEXTAREA', 'SELECT', 'BUTTON', 'SUMMARY'])
+
+/**
+ * @param {EventTarget} target
+ */
+function elementAllowsNativeSpaceBehavior(target) {
+  return SPACE_KEY_NATIVE_TAGS.has(target.tagName) || target.isContentEditable
+}
+
 /**
  * @param {KeyboardEvent} event
  */
 function handleKeyboardShortcuts(event) {
+  // Stop space from scrolling the page when focus is on something that doesn't handle it itself
+  // (e.g. a router-link card, a generic focusable div, or nothing at all)
+  if (event.key === ' ' && !elementAllowsNativeSpaceBehavior(event.target)) {
+    event.preventDefault()
+  }
+
   // ignore user typing in HTML `input` elements
   if (event.shiftKey && event.key === '?' && event.target.tagName !== 'INPUT') {
     store.commit('setIsKeyboardShortcutPromptShown', !isKeyboardShortcutPromptShown.value)
