@@ -938,7 +938,7 @@ export default defineComponent({
         /** @type {shaka.extern.UIConfiguration} */
         const firstTimeConfig = {
           addSeekBar: seekingIsPossible.value,
-          customContextMenu: true,
+          customContextMenu: false,
           contextMenuElements: ['ft_stats'],
           enableTooltips: true,
           seekBarColors: {
