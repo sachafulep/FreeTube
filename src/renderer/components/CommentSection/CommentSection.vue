@@ -265,7 +265,7 @@
 <script setup>
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { computed, ref, shallowRef, watch } from 'vue'
-import { useI18n } from '../../composables/use-i18n-polyfill'
+import { useI18n } from 'vue-i18n'
 
 import CommentLikeCount from '../CommentLikeCount/CommentLikeCount.vue'
 import ShowMoreRepliesButton from '../ShowMoreRepliesButton/ShowMoreRepliesButton.vue'
@@ -363,10 +363,7 @@ const canPerformMoreCommentLoading = computed(() => {
 })
 
 watch(() => props.videoPlayerReady, (isReady) => {
-  // if (isReady && canPerformInitialCommentLoading.value && !props.isPostComments) {
-  if (isReady) {
-    getCommentData()
-  }
+  if (isReady) { getCommentData() }
 }, { immediate: true })
 
 const observeVisibilityOptions = computed(() => {
