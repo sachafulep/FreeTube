@@ -35,10 +35,9 @@
         </div>
         <p
           v-if="description"
+          v-safer-html="description"
           class="description"
-        >
-          {{ description }}
-        </p>
+        />
         <FtSubscribeButton
           :channel-id="id"
           :channel-name="name"
@@ -55,6 +54,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import FtCard from '../ft-card/ft-card.vue'
 import FtSubscribeButton from '../FtSubscribeButton/FtSubscribeButton.vue'
 import { formatNumber } from '../../helpers/utils'
+import { vSaferHtml } from '../../directives/vSaferHtml.js'
 
 const props = defineProps({
   id: {
