@@ -1,5 +1,6 @@
 :deep(.ft-chapter-name-button) {
   width: fit-content;
+  max-width: 400px;
   border-radius: 20px;
   padding: 0 12px;
   font-weight: 600;
@@ -11,5 +12,10 @@
 }
 
 :deep(.ft-chapter-name-button span) {
-  transform: translateY(3px);
+  display: block;
+  max-width: 376px;
+  overflow-x: clip;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  transform: translateY(1px);
 }
