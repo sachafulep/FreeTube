@@ -81,14 +81,18 @@ export default defineComponent({
     'watch-video-tabs': WatchVideoTabs,
     'ft-age-restricted': FtAgeRestricted
   },
-  beforeRouteLeave: async function (to, from, next) {
+  beforeRouteLeave: function (to, from, next) {
     this.handleRouteChange()
     window.removeEventListener('beforeunload', this.handleWatchProgressAutoSave)
     document.removeEventListener('keydown', this.resetAutoplayInterruptionTimeout)
     document.removeEventListener('click', this.resetAutoplayInterruptionTimeout)
 
     if (this.$refs.player) {
-      await this.destroyPlayer()
+      // Don't block navigation on player teardown, as shaka-player's destroy() can take a while
+      // to resolve if it's still loading/buffering (it awaits the in-progress operation internally).
+      this.destroyPlayer().catch((error) => {
+        console.error('Error destroying player after navigating away', error)
+      })
     }
 
     next()
