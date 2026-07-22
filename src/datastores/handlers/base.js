@@ -106,6 +106,10 @@ class History {
     return db.history.findAsync({}).sort({ timeWatched: -1 })
   }
 
+  static findOne(videoId) {
+    return db.history.findOneAsync({ videoId })
+  }
+
   static upsert(record) {
     return db.history.updateAsync({ videoId: record.videoId }, record, { upsert: true })
   }

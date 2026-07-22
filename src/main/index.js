@@ -96,6 +96,8 @@ function runApp() {
     showCopyImageAddress: true,
     showSelectAll: false,
     showCopyLink: false,
+    // Video titles and thumbnails get their own dedicated menu (see `handleWatchLinkContextMenu` below)
+    shouldShowMenu: (event, parameters) => !isWatchLink(parameters),
     prepend: (defaultActions, parameters, browserWindow) => [
       {
         label: 'Open in a New Window',
@@ -265,6 +267,77 @@ function runApp() {
         },
       ]
     },
+  })
+
+  function isWatchLink(parameters) {
+    if (!parameters.linkURL) {
+      return false
+    }
+
+    const urlParts = parameters.linkURL.split('#')
+    const isInAppUrl = urlParts[0] === parameters.pageURL.split('#')[0]
+
+    return isInAppUrl && Boolean(urlParts[1]?.startsWith('/watch'))
+  }
+
+  function syncAllWindows(channel, payload) {
+    for (const window of BrowserWindow.getAllWindows()) {
+      if (isFreeTubeUrl(window.webContents.getURL())) {
+        window.webContents.send(channel, payload)
+      }
+    }
+  }
+
+  // Video titles and thumbnails link to an in-app `/watch` URL.
+  // Right-clicking them shows this dedicated menu instead of the generic one above,
+  // since it needs to know the video's watch history/pin status.
+  async function handleWatchLinkContextMenu(browserWindow, parameters) {
+    if (!isWatchLink(parameters)) {
+      return
+    }
+
+    const path = parameters.linkURL.split('#')[1].split('?')[0]
+    const [, videoId] = path.split('/').filter(p => p)
+
+    if (!videoId) {
+      return
+    }
+
+    const historyEntry = await baseHandlers.history.findOne(videoId)
+
+    const template = [
+      {
+        label: 'Open in a New Window',
+        click: () => {
+          createWindow({ replaceMainWindow: false, windowStartupUrl: parameters.linkURL, showWindowNow: true })
+        }
+      }
+    ]
+
+    if (historyEntry) {
+      template.push({
+        label: 'Unmark as Viewed',
+        click: async () => {
+          await baseHandlers.history.delete(videoId)
+          syncAllWindows(IpcChannels.SYNC_HISTORY, { event: SyncEvents.GENERAL.DELETE, data: videoId })
+        }
+      })
+
+      template.push({
+        label: historyEntry.isPinned ? 'Unpin Video' : 'Pin Video',
+        click: async () => {
+          const isPinned = !historyEntry.isPinned
+          await baseHandlers.history.updatePinStatus(videoId, isPinned)
+          syncAllWindows(IpcChannels.SYNC_HISTORY, { event: SyncEvents.HISTORY.UPDATE_PIN_STATUS, data: { videoId, isPinned } })
+        }
+      })
+    }
+
+    Menu.buildFromTemplate(template).popup({ window: browserWindow })
+  }
+
+  app.on('browser-window-created', (_event, win) => {
+    win.webContents.on('context-menu', (_event, parameters) => handleWatchLinkContextMenu(win, parameters))
   })
 
   if (process.platform === 'win32') {
