@@ -176,7 +176,7 @@ const mutations = {
     // No history entry yet (e.g. pinning the next video in a playlist before it has loaded).
     // Create a minimal stub so the full record upsert can find and preserve `isPinned`.
     if (isPinned) {
-      const stub = { videoId, isPinned: true, type: 'video' }
+      const stub = { videoId, isPinned: true }
       state.historyCacheById[videoId] = stub
       state.historyCacheSorted.unshift(stub)
     }

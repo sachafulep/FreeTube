@@ -1030,13 +1030,10 @@ function markAsWatched() {
     author: channelName.value,
     authorId: channelId.value,
     published: published.value,
-    description: description.value,
     viewCount: viewCount.value,
     lengthSeconds: props.data.lengthSeconds,
     watchProgress: 0,
     timeWatched: Date.now(),
-    isLive: false,
-    type: 'video',
     isPinned: isPinned.value,
   }
 

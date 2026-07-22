@@ -59,6 +59,7 @@
       <FtElementList
         v-if="activeData.length > 0"
         :data="activeData"
+        data-type="video"
         :show-video-with-last-viewed-playlist="true"
         :use-channels-hidden-preference="false"
         :hide-forbidden-titles="false"

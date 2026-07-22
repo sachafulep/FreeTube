@@ -1263,13 +1263,10 @@ export default defineComponent({
         author: this.channelName,
         authorId: this.channelId,
         published: this.videoPublished,
-        description: this.videoDescription,
         viewCount: this.videoViewCount,
         lengthSeconds: this.videoLengthSeconds,
         watchProgress: watchProgress,
         timeWatched: Date.now(),
-        isLive: false,
-        type: 'video',
         isPinned: this.$store.getters.getHistoryCacheById[this.videoId]?.isPinned === true,
       }
 

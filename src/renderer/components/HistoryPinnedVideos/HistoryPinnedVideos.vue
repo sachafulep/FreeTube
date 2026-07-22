@@ -10,6 +10,7 @@
     <FtElementList
       class="pinnedList"
       :data="pinnedHistory"
+      data-type="video"
       :show-video-with-last-viewed-playlist="true"
       :use-channels-hidden-preference="false"
       :hide-forbidden-titles="false"

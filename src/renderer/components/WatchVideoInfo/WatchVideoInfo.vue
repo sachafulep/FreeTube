@@ -255,13 +255,10 @@ function handleExternalPlayer() {
       author: props.channelName,
       authorId: props.channelId,
       published: props.published,
-      description: props.description,
       viewCount: props.viewCount,
       lengthSeconds: props.lengthSeconds,
       watchProgress: 0,
       timeWatched: Date.now(),
-      isLive: false,
-      type: 'video'
     }
 
     store.dispatch('updateHistory', videoData)

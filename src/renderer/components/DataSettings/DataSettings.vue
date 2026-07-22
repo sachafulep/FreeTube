@@ -838,12 +838,10 @@ async function importFreeTubeWatchHistory(textDecode) {
   const requiredKeys = [
     'author',
     'authorId',
-    'isLive',
     'lengthSeconds',
     'published',
     'timeWatched',
     'title',
-    'type',
     'videoId',
     'watchProgress',
   ]
@@ -855,11 +853,14 @@ async function importFreeTubeWatchHistory(textDecode) {
     'lastViewedPlaylistItemId',
     'lastViewedPlaylistType',
     'viewCount',
-    'description',
   ]
 
   const ignoredKeys = [
     'paid',
+    // No longer stored in newly written history records, but may still be present in older exports
+    'isLive',
+    'type',
+    'description',
   ]
 
   // deep copy so we don't get errors from Electron when we try to pass reactive objects through the IPC channels
@@ -888,9 +889,6 @@ async function importFreeTubeWatchHistory(textDecode) {
       showToast(t('Settings.Data Settings.History object has insufficient data, skipping item'))
       console.error('Missing Keys: ', missingKeys, historyData)
     } else {
-      // FreeTube history export does not have this data if the video was marked as watched manually, setting default value
-      historyObject.description = historyObject.description ?? ''
-
       historyItems.set(historyObject.videoId, historyObject)
     }
   })
@@ -979,12 +977,9 @@ async function importYouTubeWatchHistory(historyData) {
       showToast(t('Settings.Data Settings.History object has insufficient data, skipping item'))
     } else {
       // YouTube history export does not have this data, setting some defaults.
-      historyObject.type = 'video'
       historyObject.published = historyObject.timeWatched ?? 1
-      historyObject.description = ''
       historyObject.lengthSeconds = null
       historyObject.watchProgress = 1
-      historyObject.isLive = false
 
       historyItems.set(historyObject.videoId, historyObject)
     }
