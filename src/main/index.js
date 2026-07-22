@@ -1198,6 +1198,9 @@ function runApp() {
         return
       }
 
+      // Disabled: don't persist window bounds/maximized/fullScreen to settings.db
+      return
+
       const value = {
         ...newWindow.getNormalBounds(),
         maximized: newWindow.isMaximized(),
