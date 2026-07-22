@@ -124,6 +124,10 @@ class History {
     return db.history.updateAsync({ videoId }, { $set: { lastViewedPlaylistId, lastViewedPlaylistType, lastViewedPlaylistItemId } }, { upsert: true })
   }
 
+  static updatePinStatus(videoId, isPinned) {
+    return db.history.updateAsync({ videoId }, { $set: { isPinned } }, { upsert: true })
+  }
+
   static delete(videoId) {
     return db.history.removeAsync({ videoId })
   }

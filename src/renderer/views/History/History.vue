@@ -10,6 +10,7 @@
         />
         {{ t('History.History') }}
       </h2>
+      <HistoryPinnedVideos />
       <FtInput
         v-show="fullData.length > 1"
         ref="searchBar"
@@ -93,6 +94,7 @@ import FtFlexBox from '../../components/ft-flex-box/ft-flex-box.vue'
 import FtInput from '../../components/FtInput/FtInput.vue'
 import FtSelect from '../../components/FtSelect/FtSelect.vue'
 import FtToggleSwitch from '../../components/FtToggleSwitch/FtToggleSwitch.vue'
+import HistoryPinnedVideos from '../../components/HistoryPinnedVideos/HistoryPinnedVideos.vue'
 
 import store from '../../store'
 

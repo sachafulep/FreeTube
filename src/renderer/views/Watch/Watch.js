@@ -1270,6 +1270,7 @@ export default defineComponent({
         timeWatched: Date.now(),
         isLive: false,
         type: 'video',
+        isPinned: this.$store.getters.getHistoryCacheById[this.videoId]?.isPinned === true,
       }
 
       this.updateHistory(videoData)
@@ -1474,6 +1475,12 @@ export default defineComponent({
 
     handleVideoEnded: function () {
       this.handleWatchProgressAutoSaveWhenProgressEnabled()
+
+      const wasPinned = this.$store.getters.getHistoryCacheById[this.videoId]?.isPinned === true
+      if (wasPinned) {
+        this.$store.dispatch('updatePinStatus', { videoId: this.videoId, isPinned: false })
+      }
+
       if (!this.autoplayEnabled) {
         return
       }
@@ -1505,11 +1512,17 @@ export default defineComponent({
       }
 
       const nextVideoInterval = this.defaultInterval
-      this.playNextTimeout = setTimeout(() => {
+      this.playNextTimeout = setTimeout(async () => {
         const player = this.$refs.player
 
         if (player?.isPaused()) {
           if (this.watchingPlaylist) {
+            if (wasPinned) {
+              const nextItem = this.$refs.watchVideoPlaylist?.nextPlaylistItem
+              if (nextItem) {
+                await this.$store.dispatch('updatePinStatus', { videoId: nextItem.videoId, isPinned: true })
+              }
+            }
             this.$refs.watchVideoPlaylist.playNextVideo()
           } else {
             this.$router.push({

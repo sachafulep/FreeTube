@@ -486,13 +486,17 @@ function toggleReversePlaylist() {
   })
 }
 
-function playNextVideo() {
+const nextPlaylistItem = computed(() => {
   const videoIndex = videoIndexInPlaylistItems.value
   const targetVideoIndex = (videoIsNotPlaylistItem.value || videoIsLastPlaylistItem.value) ? 0 : videoIndex + 1
 
   const targetList = shuffleEnabled.value ? randomizedPlaylistItems.value : playlistItems.value
 
-  const targetPlaylistItem = targetList[targetVideoIndex]
+  return targetList[targetVideoIndex]
+})
+
+function playNextVideo() {
+  const targetPlaylistItem = nextPlaylistItem.value
 
   const routerPushPayload = {
     path: `/watch/${targetPlaylistItem.videoId}`,
@@ -805,6 +809,7 @@ defineExpose({
   playNextVideo,
   playPreviousVideo,
   shouldStopDueToPlaylistEnd,
+  nextPlaylistItem,
   getState: () => ({
     index: reversePlaylist.value
       ? playlistItems.value.length - currentVideoIndexOneBased.value

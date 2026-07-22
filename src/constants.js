@@ -67,6 +67,7 @@ const DBActions = {
   HISTORY: {
     UPDATE_WATCH_PROGRESS: 20,
     UPDATE_PLAYLIST: 21,
+    UPDATE_PIN_STATUS: 22,
   },
 
   PROFILES: {
@@ -107,6 +108,7 @@ const SyncEvents = {
   HISTORY: {
     UPDATE_WATCH_PROGRESS: 20,
     UPDATE_PLAYLIST: 21,
+    UPDATE_PIN_STATUS: 22,
   },
 
   PROFILES: {

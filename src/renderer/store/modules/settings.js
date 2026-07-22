@@ -534,6 +534,10 @@ const customActions = {
             commit('updateRecordLastViewedPlaylistIdInHistoryCache', data)
             break
 
+          case SyncEvents.HISTORY.UPDATE_PIN_STATUS:
+            commit('updateRecordPinStatusInHistoryCache', data)
+            break
+
           case SyncEvents.GENERAL.DELETE:
             commit('removeFromHistoryCacheById', data)
             break

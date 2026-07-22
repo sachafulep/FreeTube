@@ -1,0 +1,16 @@
+.pinnedHeading {
+  margin-block-start: 1.5em;
+}
+
+.headingIcon {
+  color: var(--primary-color);
+}
+
+.pinnedList :deep(.pinnedIconContainer) {
+  display: none;
+}
+
+.pinnedDivider {
+  margin: 18px 0;
+  border-color: #9e9e9e;
+}

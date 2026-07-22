@@ -1747,6 +1747,15 @@ function runApp() {
           )
           return null
 
+        case DBActions.HISTORY.UPDATE_PIN_STATUS:
+          await baseHandlers.history.updatePinStatus(data.videoId, data.isPinned)
+          syncOtherWindows(
+            IpcChannels.SYNC_HISTORY,
+            event,
+            { event: SyncEvents.HISTORY.UPDATE_PIN_STATUS, data }
+          )
+          return null
+
         case DBActions.GENERAL.DELETE:
           await baseHandlers.history.delete(data)
           syncOtherWindows(

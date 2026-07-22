@@ -37,6 +37,13 @@ class History {
     )
   }
 
+  static updatePinStatus(videoId, isPinned) {
+    return window.ftElectron.dbHistory(
+      DBActions.HISTORY.UPDATE_PIN_STATUS,
+      { videoId, isPinned }
+    )
+  }
+
   static delete(videoId) {
     return window.ftElectron.dbHistory(DBActions.GENERAL.DELETE, videoId)
   }

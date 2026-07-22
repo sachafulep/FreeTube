@@ -101,6 +101,15 @@ const actions = {
       console.error(errMessage)
     }
   },
+
+  async updatePinStatus({ commit }, { videoId, isPinned }) {
+    try {
+      await DBHistoryHandlers.updatePinStatus(videoId, isPinned)
+      commit('updateRecordPinStatusInHistoryCache', { videoId, isPinned })
+    } catch (errMessage) {
+      console.error(errMessage)
+    }
+  },
 }
 
 const mutations = {
@@ -150,6 +159,26 @@ const mutations = {
       record.lastViewedPlaylistId = lastViewedPlaylistId
       record.lastViewedPlaylistType = lastViewedPlaylistType
       record.lastViewedPlaylistItemId = lastViewedPlaylistItemId
+    }
+  },
+
+  updateRecordPinStatusInHistoryCache(state, { videoId, isPinned }) {
+    // historyCacheById and historyCacheSorted reference the same object instances,
+    // so modifying an existing object in one of them will update both.
+
+    const record = state.historyCacheById[videoId]
+
+    if (record) {
+      record.isPinned = isPinned
+      return
+    }
+
+    // No history entry yet (e.g. pinning the next video in a playlist before it has loaded).
+    // Create a minimal stub so the full record upsert can find and preserve `isPinned`.
+    if (isPinned) {
+      const stub = { videoId, isPinned: true, type: 'video' }
+      state.historyCacheById[videoId] = stub
+      state.historyCacheSorted.unshift(stub)
     }
   },
 

@@ -119,6 +119,7 @@
       >
         {{ t("Video.Watched") }}
       </div>
+      <PinnedIcon v-if="isPinned" />
       <div
         v-if="historyEntryExists"
         class="watchedProgressBar"
@@ -258,9 +259,12 @@ import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 
 import FtIconButton from '../FtIconButton/FtIconButton.vue'
+import PinnedIcon from '../PinnedIcon/PinnedIcon.vue'
 import FtVideoInfoLine from './FtVideoInfoLine.vue'
 
 import { vSaferHtml } from '../../directives/vSaferHtml.js'
+
+import { usePinnedVideo } from '../../composables/pinned-video.js'
 
 import store from '../../store/index'
 
@@ -388,6 +392,8 @@ const historyEntry = computed(() => store.getters.getHistoryCacheById[id.value])
 
 const historyEntryExists = computed(() => historyEntry.value !== undefined)
 
+const { isPinned, togglePinned } = usePinnedVideo(id)
+
 const watchProgress = computed(() => {
   if (!historyEntryExists.value || !watchedProgressSavingEnabled.value) {
     return 0
@@ -466,7 +472,13 @@ const dropdownOptions = computed(() => {
         ? t('Video.Remove From History')
         : t('Video.Mark As Watched'),
       value: 'history'
-    }
+    },
+    ...historyEntryExists.value
+      ? [{
+          label: isPinned.value ? 'Unpin Video' : 'Pin Video',
+          value: 'pin'
+        }]
+      : [],
   ]
   if (!hideSharingActions.value) {
     options.push(
@@ -594,6 +606,12 @@ function handleOptionsClick(option) {
         markAsWatched()
       }
       break
+    case 'pin': {
+      const wasPinned = isPinned.value
+      togglePinned()
+      showToast(wasPinned ? 'Video has been unpinned' : 'Video has been pinned')
+      break
+    }
     case 'copyYoutube': {
       let videoUrl = `https://youtu.be/${id.value}`
 
@@ -1018,7 +1036,8 @@ function markAsWatched() {
     watchProgress: 0,
     timeWatched: Date.now(),
     isLive: false,
-    type: 'video'
+    type: 'video',
+    isPinned: isPinned.value,
   }
 
   store.dispatch('updateHistory', videoData)
