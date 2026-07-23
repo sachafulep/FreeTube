@@ -18,6 +18,7 @@
         @click="goToSearch"
         @clear="clearLastSuggestionQuery"
         @remove="removeSearchHistoryEntryInDbAndCache"
+        @keydown.esc.stop="searchInput.blur()"
       />
     </div>
   </nav>
