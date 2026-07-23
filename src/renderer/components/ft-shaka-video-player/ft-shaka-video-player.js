@@ -2545,12 +2545,12 @@ export default defineComponent({
         case KeyboardShortcuts.VIDEO_PLAYER.PLAYBACK.LARGE_REWIND:
           // Rewind by 2x the time-skip interval (in seconds)
           event.preventDefault()
-          seekBySeconds(-defaultSkipInterval.value * player.getPlaybackRate() * 2, false, true)
+          seekBySeconds(-defaultSkipInterval.value * 2, false, true)
           break
         case KeyboardShortcuts.VIDEO_PLAYER.PLAYBACK.LARGE_FAST_FORWARD:
           // Fast-Forward by 2x the time-skip interval (in seconds)
           event.preventDefault()
-          seekBySeconds(defaultSkipInterval.value * player.getPlaybackRate() * 2, false, true)
+          seekBySeconds(defaultSkipInterval.value * 2, false, true)
           break
         case KeyboardShortcuts.VIDEO_PLAYER.PLAYBACK.DECREASE_VIDEO_SPEED:
         case KeyboardShortcuts.VIDEO_PLAYER.PLAYBACK.DECREASE_VIDEO_SPEED_ALT:
@@ -2612,7 +2612,7 @@ export default defineComponent({
             }
           } else {
             // Rewind by the time-skip interval (in seconds)
-            seekBySeconds(-defaultSkipInterval.value * player.getPlaybackRate(), false, true)
+            seekBySeconds(-defaultSkipInterval.value, false, true)
           }
           break
         case KeyboardShortcuts.VIDEO_PLAYER.PLAYBACK.SMALL_FAST_FORWARD:
@@ -2630,7 +2630,7 @@ export default defineComponent({
             }
           } else {
             // Fast-Forward by the time-skip interval (in seconds)
-            seekBySeconds(defaultSkipInterval.value * player.getPlaybackRate(), false, true)
+            seekBySeconds(defaultSkipInterval.value, false, true)
           }
           break
         case KeyboardShortcuts.VIDEO_PLAYER.GENERAL.PICTURE_IN_PICTURE:
