@@ -24,6 +24,23 @@
   height: 36px;
 }
 
+.ft-input-component.search {
+  cursor: text;
+}
+
+.search .inputAction {
+  pointer-events: none;
+}
+
+.search .inputAction:hover,
+.search .inputAction.enabled:hover,
+.search .inputAction.enabled:active,
+.forceTextColor .search .inputAction:hover,
+.forceTextColor .search .inputAction.enabled:hover,
+.forceTextColor .search .inputAction.enabled:active {
+  background-color: transparent;
+}
+
 .clearInputTextButton {
   display: none;
 }

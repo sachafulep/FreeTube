@@ -41,7 +41,10 @@
         :icon="['fas', 'times-circle']"
       />
     </button>
-    <span class="inputWrapper">
+    <span
+      class="inputWrapper"
+      @click="handleWrapperClick"
+    >
       <input
         :id="id"
         ref="inputRef"
@@ -287,6 +290,12 @@ function handleInput(data) {
 
   handleActionIconChange()
   emit('input', text)
+}
+
+function handleWrapperClick() {
+  if (!props.isSearch) { return }
+
+  inputRef.value?.focus()
 }
 
 function handleClearTextClick() {
