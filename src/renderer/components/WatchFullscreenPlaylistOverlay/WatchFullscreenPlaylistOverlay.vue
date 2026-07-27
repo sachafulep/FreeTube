@@ -62,7 +62,9 @@ watch(() => props.isVisible, (visible) => {
       // have a settled layout before we measure where to scroll to
       requestAnimationFrame(() => {
         const currentItem = listElement.value?.children[props.currentPlaylistVideoIndex]
-        currentItem?.scrollIntoView({ block: 'start' })
+        if (currentItem != null) {
+          listElement.value.scrollTop = currentItem.offsetTop - listElement.value.offsetTop
+        }
       })
     })
   }
