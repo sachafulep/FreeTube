@@ -4,7 +4,8 @@
     class="ftVideoPlayer shaka-video-container"
     :class="{
       fullWindow: fullWindowEnabled,
-      sixteenByNine: forceAspectRatio && !fullWindowEnabled
+      sixteenByNine: forceAspectRatio && !fullWindowEnabled,
+      playlistOverlayOpen: showPlaylistOverlay
     }"
   >
     <!-- eslint-disable-next-line vuejs-accessibility/media-has-caption -->
@@ -88,9 +89,10 @@
       />
       <span v-if="valueChangeMessage">{{ valueChangeMessage }}</span>
     </div>
-    <div
-      v-show="showChapterOverlay"
-      class="chapterOverlay"
+    <WatchFullscreenOverlay
+      :visible="showChapterOverlay"
+      title="Chapters"
+      @close="showChapterOverlay = false"
     >
       <WatchSidebarChapters
         :chapters="chapters"
@@ -98,7 +100,21 @@
         :is-visible="showChapterOverlay"
         @timestamp-event="handleChapterOverlayTimestamp"
       />
-    </div>
+    </WatchFullscreenOverlay>
+    <WatchFullscreenOverlay
+      :visible="showPlaylistOverlay"
+      :title="playlistTitle"
+      @close="showPlaylistOverlay = false"
+    >
+      <WatchFullscreenPlaylistOverlay
+        :playlist-items="playlistItems"
+        :playlist-id="playlistId"
+        :playlist-type="playlistType"
+        :current-playlist-video-index="currentPlaylistVideoIndex"
+        :playlist-reverse="playlistReverse"
+        :is-visible="showPlaylistOverlay"
+      />
+    </WatchFullscreenOverlay>
     <div
       v-if="showOfflineMessage"
       class="offlineWrapper"
@@ -144,6 +160,7 @@
 <style scoped src="./player-components2/ChapterNameButton.css" />
 <style scoped src="./player-components2/FullscreenButton.css" />
 <style scoped src="./player-components2/PlayPauseButton.css" />
+<style scoped src="./player-components2/PlaylistOverlayButton.css" />
 <style scoped src="./player-components2/QualityButton.css" />
 <style scoped src="./player-components2/TimeDisplay.css" />
 <style scoped src="./player-components2/VolumeControl.css" />

@@ -12,6 +12,10 @@
   transform: translateY(1px);
 }
 
+:deep(.shaka-top-controls) {
+  display: none;
+}
+
 :deep(.shaka-controls-button-panel),
 :deep(.shaka-scrim-container),
 :deep(.shaka-seek-bar-container),
@@ -108,31 +112,6 @@
   height: unset;
 }
 
-.chapterOverlay {
-  margin: 20px;
-  border-radius: 10px;
-  width: 400px;
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 3;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  pointer-events: all;
-}
-
-.chapterOverlay :deep(.sidebarChapters) {
-  margin-bottom: 0;
-  border-radius: 0;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-.chapterOverlay :deep(.sidebarChaptersList) {
-  max-height: none;
-  flex: 1;
+.fullWindow :deep(.playerFullscreenTitleOverlay) {
+  display: block;
 }

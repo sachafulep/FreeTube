@@ -1,0 +1,29 @@
+.fullscreenOverlay {
+  margin: 20px;
+  border-radius: 10px;
+  width: 400px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  pointer-events: all;
+  background-color: #212121;
+}
+
+.fullscreenOverlay :deep(.sidebarChapters) {
+  margin-bottom: 0;
+  border-radius: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.fullscreenOverlay :deep(.sidebarChaptersList) {
+  max-height: none;
+  flex: 1;
+}

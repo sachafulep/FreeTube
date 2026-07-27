@@ -19,7 +19,10 @@ import { setupSeekBarTooltip } from './player-components2/SeekBarTooltip'
 import { QualityButton } from './player-components2/QualityButton'
 import { TimeDisplay } from './player-components2/TimeDisplay'
 import { VolumeControl } from './player-components2/VolumeControl'
+import { createPlaylistOverlayButton } from './player-components2/PlaylistOverlayButton'
 import WatchSidebarChapters from '../WatchSidebarChapters/WatchSidebarChapters.vue'
+import WatchFullscreenOverlay from '../WatchFullscreenOverlay/WatchFullscreenOverlay.vue'
+import WatchFullscreenPlaylistOverlay from '../WatchFullscreenPlaylistOverlay/WatchFullscreenPlaylistOverlay.vue'
 import {
   deduplicateAudioTracks,
   findMostSimilarAudioBandwidth,
@@ -76,6 +79,8 @@ export default defineComponent({
   name: 'FtShakaVideoPlayer',
   components: {
     WatchSidebarChapters,
+    WatchFullscreenOverlay,
+    WatchFullscreenPlaylistOverlay,
   },
   props: {
     format: {
@@ -151,6 +156,30 @@ export default defineComponent({
       default: false
     },
     watchingPlaylist: {
+      type: Boolean,
+      default: false
+    },
+    playlistId: {
+      type: String,
+      default: null
+    },
+    playlistType: {
+      type: String,
+      default: null
+    },
+    playlistTitle: {
+      type: String,
+      default: ''
+    },
+    playlistItems: {
+      type: Array,
+      default: () => []
+    },
+    currentPlaylistVideoIndex: {
+      type: Number,
+      default: -1
+    },
+    playlistReverse: {
       type: Boolean,
       default: false
     },
@@ -232,6 +261,7 @@ export default defineComponent({
 
     const fullWindowEnabled = ref(false)
     const showChapterOverlay = ref(false)
+    const showPlaylistOverlay = ref(false)
     const isFullscreen = ref(false)
     const startInFullwindow = props.startInFullwindow
     let startInFullscreen = props.startInFullscreen
@@ -1068,6 +1098,14 @@ export default defineComponent({
       fullscreenTitleOverlay.dir = 'auto'
       controlsContainer.appendChild(fullscreenTitleOverlay)
 
+      // playlist overlay toggle button when the video is fullscreened and a playlist is playing
+      // placed inside the controls container so it fades in and out at the same time as the controls, like the title above
+      if (props.watchingPlaylist) {
+        controlsContainer.appendChild(createPlaylistOverlayButton(() => {
+          showPlaylistOverlay.value = !showPlaylistOverlay.value
+        }))
+      }
+
       if (hasLoaded.value && props.chapters.length > 0) {
         createChapterMarkers()
       }
@@ -1102,7 +1140,14 @@ export default defineComponent({
     })
 
     watch(fullWindowEnabled, (enabled) => {
-      if (!enabled) showChapterOverlay.value = false
+      if (!enabled) {
+        showChapterOverlay.value = false
+        showPlaylistOverlay.value = false
+      }
+    })
+
+    watch(() => props.currentPlaylistVideoIndex, () => {
+      showPlaylistOverlay.value = false
     })
 
     watch(() => props.currentChapterIndex, (index) => {
@@ -2863,7 +2908,10 @@ export default defineComponent({
 
     function fullscreenChangeHandler() {
       isFullscreen.value = document.fullscreenElement !== null
-      if (!isFullscreen.value) showChapterOverlay.value = false
+      if (!isFullscreen.value) {
+        showChapterOverlay.value = false
+        showPlaylistOverlay.value = false
+      }
       nextTick(showOverlayControls)
     }
 
@@ -3566,6 +3614,8 @@ export default defineComponent({
         video.value.currentTime = startSeconds
         showChapterOverlay.value = false
       },
+
+      showPlaylistOverlay,
     }
   }
 })

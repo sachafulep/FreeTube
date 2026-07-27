@@ -202,7 +202,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['pause-player'])
+const emit = defineEmits(['pause-player', 'playlist-state'])
 
 const { locale, t } = useI18n()
 const router = useRouter()
@@ -255,6 +255,15 @@ const currentVideoIndexZeroBased = computed(() => {
 })
 
 const currentVideoIndexOneBased = computed(() => currentVideoIndexZeroBased.value + 1)
+
+watch([playlistTitle, playlistItems, currentVideoIndexZeroBased, reversePlaylist], () => {
+  emit('playlist-state', {
+    title: playlistTitle.value,
+    items: playlistItems.value,
+    currentIndex: currentVideoIndexZeroBased.value,
+    reverse: reversePlaylist.value,
+  })
+}, { immediate: true })
 
 const currentVideo = computed(() => playlistItems.value[currentVideoIndexZeroBased.value])
 

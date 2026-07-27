@@ -39,6 +39,12 @@
           :autoplay-possible="autoplayPossible"
           :autoplay-enabled="autoplayEnabled"
           :watching-playlist="watchingPlaylist"
+          :playlist-id="playlistId"
+          :playlist-type="playlistType"
+          :playlist-title="playlistOverlayState.title"
+          :playlist-items="playlistOverlayState.items"
+          :current-playlist-video-index="playlistOverlayState.currentIndex"
+          :playlist-reverse="playlistOverlayState.reverse"
           :vr-projection="vrProjection"
           :start-in-fullscreen="startNextVideoInFullscreen"
           :start-in-fullwindow="startNextVideoInFullwindow"
@@ -229,6 +235,7 @@
         class="watchVideoSideBar watchVideoPlaylist"
         :class="{ theatrePlaylist: useTheatreMode }"
         @pause-player="pausePlayer"
+        @playlist-state="handlePlaylistStateUpdate"
       />
       <watch-video-recommendations
         v-if="!isLoading && !hideRecommendedVideos"

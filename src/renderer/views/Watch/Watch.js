@@ -161,6 +161,7 @@ export default defineComponent({
       playlistId: '',
       playlistType: '',
       playlistItemId: null,
+      playlistOverlayState: { title: '', items: [], currentIndex: -1, reverse: false },
       /** @type {number|null} */
       timestamp: null,
       // This should never be saved into history
@@ -368,6 +369,9 @@ export default defineComponent({
   methods: {
     toggleSidebarChapters() {
       this.showSidebarChapters = !this.showSidebarChapters
+    },
+    handlePlaylistStateUpdate(state) {
+      this.playlistOverlayState = state
     },
     async reloadView() {
       await this.handleRouteChange()
