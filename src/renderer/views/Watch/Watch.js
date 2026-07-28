@@ -23,6 +23,7 @@ import {
   extractNumberFromString,
   formatDurationAsTimestamp,
   formatNumber,
+  getStoryboardImageUrls,
   showToast
 } from '../../helpers/utils'
 import {
@@ -913,6 +914,7 @@ export default defineComponent({
 
             storyboard = source.at(-1)
             this.videoStoryboardSrc = this.createLocalStoryboardUrls(storyboard)
+            this.preloadStoryboardImages(storyboard)
           }
 
           if (result.streaming_data?.adaptive_formats.length > 0) {
@@ -1852,6 +1854,19 @@ export default defineComponent({
       const results = buildVTTFileLocally(storyboardInfo, this.videoLengthSeconds)
 
       return `data:text/vtt;charset=utf-8,${encodeURIComponent(results)}`
+    },
+
+    /**
+     * Warms the browser's HTTP cache with every storyboard sprite sheet image, so that
+     * hovering/dragging over the seek bar doesn't show a black thumbnail while each
+     * sprite sheet is fetched for the first time.
+     * @param {import('youtubei.js/dist/src/parser/classes/PlayerStoryboardSpec').StoryboardData} storyboardInfo
+     */
+    preloadStoryboardImages: function (storyboardInfo) {
+      for (const url of getStoryboardImageUrls(storyboardInfo)) {
+        const image = new Image()
+        image.src = url
+      }
     },
 
     /**

@@ -99,6 +99,23 @@ export function calculatePublishedDate(publishedText, isLive = false, isUpcoming
 }
 
 /**
+ * Returns the URLs of every storyboard sprite sheet image, so they can be preloaded
+ * before the user starts scrubbing the seek bar.
+ * @param {import('youtubei.js/dist/src/parser/classes/PlayerStoryboardSpec').StoryboardData} storyboard
+ * @returns {string[]}
+ */
+export function getStoryboardImageUrls(storyboard) {
+  const numberOfSubImagesPerImage = storyboard.columns * storyboard.rows
+  const numberOfImages = Math.ceil(storyboard.thumbnail_count / numberOfSubImagesPerImage)
+
+  const urls = []
+  for (let i = 0; i < numberOfImages; i++) {
+    urls.push(storyboard.template_url.replace('$M.jpg', `${i}.jpg`))
+  }
+  return urls
+}
+
+/**
  * @param {import('youtubei.js/dist/src/parser/classes/PlayerStoryboardSpec').StoryboardData} storyboard
  * @param {number} videoLengthSeconds
  * @returns {string}
