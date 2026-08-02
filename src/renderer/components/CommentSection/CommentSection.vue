@@ -12,8 +12,7 @@
         role="button"
         tabindex="0"
         @click="showComments = false"
-        @keydown.space.prevent="showComments = false"
-        @keydown.enter.prevent="showComments = false"
+        @keydown.enter.space.prevent="showComments = false"
       >
         {{ $t("Comments.Hide Comments") }}
       </span>
@@ -24,8 +23,7 @@
       role="button"
       tabindex="0"
       @click="getCommentData"
-      @keydown.space.prevent="getCommentData"
-      @keydown.enter.prevent="getCommentData"
+      @keydown.enter.space.prevent="getCommentData"
     >
       {{ $t("Comments.Click to View Comments") }}
     </h4>
@@ -35,8 +33,7 @@
       role="button"
       tabindex="0"
       @click="showComments = true"
-      @keydown.space.prevent="showComments = true"
-      @keydown.enter.prevent="showComments = true"
+      @keydown.enter.space.prevent="showComments = true"
     >
       {{ $t("Comments.Click to View Comments") }}
     </h4>
@@ -244,8 +241,7 @@
       role="button"
       tabindex="0"
       @click="getMoreComments"
-      @keydown.space.prevent="getMoreComments"
-      @keydown.enter.prevent="getMoreComments"
+      @keydown.enter.space.prevent="getMoreComments"
     >
       {{ $t("Comments.Load More Comments") }}
     </h4>
@@ -264,7 +260,7 @@
 
 <script setup>
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { computed, ref, shallowRef, watch } from 'vue'
+import { computed, ref, shallowRef, reactive, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 import CommentLikeCount from '../CommentLikeCount/CommentLikeCount.vue'
@@ -319,6 +315,8 @@ const props = defineProps({
 })
 
 const isLoading = ref(false)
+const commentRepliesLoading = reactive(new Set())
+const isMoreCommentsLoading = ref(false)
 const showComments = ref(false)
 const nextPageToken = shallowRef(null)
 
@@ -359,7 +357,7 @@ const canPerformInitialCommentLoading = computed(() => {
 })
 
 const canPerformMoreCommentLoading = computed(() => {
-  return commentData.value.length > 0 && !isLoading.value && showComments.value && !!nextPageToken.value
+  return commentData.value.length > 0 && !isLoading.value && showComments.value && !!nextPageToken.value && !isMoreCommentsLoading.value
 })
 
 watch(() => props.videoPlayerReady, (isReady) => {
@@ -456,19 +454,25 @@ function getCommentData() {
   }
 }
 
-function getMoreComments() {
+async function getMoreComments() {
   if (commentData.value.length === 0 || nextPageToken.value == null) {
     showToast(t('Comments.There are no more comments for this video'))
   } else {
+    if (isMoreCommentsLoading.value) return
+
+    isMoreCommentsLoading.value = true
+
     if (!process.env.SUPPORTS_LOCAL_API || backendPreference.value === 'invidious') {
       if (!props.isPostComments) {
-        getCommentDataInvidious()
+        await getCommentDataInvidious()
       } else {
-        getPostCommentsInvidious()
+        await getPostCommentsInvidious()
       }
     } else {
-      getCommentDataLocal(true)
+      await getCommentDataLocal(true)
     }
+
+    isMoreCommentsLoading.value = false
   }
 }
 
@@ -506,16 +510,22 @@ function toggleCommentReplies(index) {
 /**
  * @param {number} index
  */
-function getCommentReplies(index) {
+async function getCommentReplies(index) {
+  if (commentRepliesLoading.has(index)) return
+
+  commentRepliesLoading.add(index)
+
   if (!process.env.SUPPORTS_LOCAL_API || commentData.value[index].dataType === 'invidious') {
     if (!props.isPostComments) {
-      getCommentRepliesInvidious(index)
+      await getCommentRepliesInvidious(index)
     } else {
-      getPostCommentRepliesInvidious(index)
+      await getPostCommentRepliesInvidious(index)
     }
   } else {
-    getCommentRepliesLocal(index)
+    await getCommentRepliesLocal(index)
   }
+
+  commentRepliesLoading.delete(index)
 }
 
 /** @type {Map<string, (import('youtubei.js').YTNodes.CommentThread | string)>} */
@@ -592,9 +602,9 @@ async function getCommentDataLocal(more = false) {
       localCommentsInstance = undefined
       showToast(t('Falling back to Invidious API'))
       if (props.isPostComments) {
-        getPostCommentsInvidious()
+        await getPostCommentsInvidious()
       } else {
-        getCommentDataInvidious()
+        await getCommentDataInvidious()
       }
     } else {
       isLoading.value = false
@@ -606,8 +616,6 @@ async function getCommentDataLocal(more = false) {
  * @param {number} index
  */
 async function getCommentRepliesLocal(index) {
-  showToast(t('Comments.Getting comment replies, please wait'))
-
   try {
     const comment = commentData.value[index]
     /** @type {import('youtubei.js').YTNodes.CommentThread} */
@@ -644,7 +652,7 @@ async function getCommentRepliesLocal(index) {
     })
     if (backendFallback.value && backendPreference.value === 'local') {
       showToast(t('Falling back to Invidious API'))
-      getCommentDataInvidious()
+      await getCommentDataInvidious()
     } else {
       isLoading.value = false
     }
@@ -695,7 +703,7 @@ async function getCommentDataInvidious() {
 
     if (process.env.SUPPORTS_LOCAL_API && backendFallback.value && backendPreference.value === 'invidious') {
       showToast(t('Falling back to Local API'))
-      getCommentDataLocal()
+      await getCommentDataLocal()
     } else {
       isLoading.value = false
     }
@@ -706,8 +714,6 @@ async function getCommentDataInvidious() {
  * @param {number} index
  */
 async function getCommentRepliesInvidious(index) {
-  showToast(t('Comments.Getting comment replies, please wait'))
-
   const comment = commentData.value[index]
   const replyToken = replyTokens.get(comment.id)
 
@@ -736,13 +742,15 @@ async function getCommentRepliesInvidious(index) {
   }
 }
 
-function getPostCommentsInvidious() {
-  const fetchComments = nextPageToken.value == null
-    ? getInvidiousCommunityPostComments({ postId: props.id, authorId: props.postAuthorId })
-    : getInvidiousCommunityPostCommentReplies({ postId: props.id, replyToken: nextPageToken.value, authorId: props.postAuthorId })
+async function getPostCommentsInvidious() {
+  try {
+    const fetchComments = nextPageToken.value == null
+      ? getInvidiousCommunityPostComments({ postId: props.id, authorId: props.postAuthorId })
+      : getInvidiousCommunityPostCommentReplies({ postId: props.id, replyToken: nextPageToken.value, authorId: props.postAuthorId })
 
-  fetchComments.then(({ response, commentData: comments, continuation }) => {
-    comments = comments.map(({ replyToken, ...comment }) => {
+    const { response, commentData: comments, continuation } = await fetchComments
+
+    const parsedComments = comments.map(({ replyToken, ...comment }) => {
       if (comment.hasReplyToken) {
         replyTokens.set(comment.id, replyToken)
       } else {
@@ -752,11 +760,11 @@ function getPostCommentsInvidious() {
       return comment
     })
 
-    commentData.value = commentData.value.concat(comments)
+    commentData.value = commentData.value.concat(parsedComments)
     nextPageToken.value = response?.continuation ?? continuation
     isLoading.value = false
     showComments.value = true
-  }).catch((err) => {
+  } catch (err) {
     console.error(err)
     const errorMessage = t('Invidious API Error (Click to copy)')
     showToast(`${errorMessage}: ${err}`, 10000, () => {
@@ -765,16 +773,14 @@ function getPostCommentsInvidious() {
 
     if (process.env.SUPPORTS_LOCAL_API && backendFallback.value && backendPreference.value === 'invidious') {
       showToast(t('Falling back to Local API'))
-      getCommentDataLocal()
+      await getCommentDataLocal()
     } else {
       isLoading.value = false
     }
-  })
+  }
 }
 
 async function getPostCommentRepliesInvidious(index) {
-  showToast(t('Comments.Getting comment replies, please wait'))
-
   const comment = commentData.value[index]
   const replyToken = replyTokens.get(comment.id)
 

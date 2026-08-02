@@ -357,7 +357,14 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['move-video-down', 'move-video-up', 'pause-player', 'remove-from-playlist'])
+const emit = defineEmits([
+  'move-video-down',
+  'move-video-up',
+  'move-video-to-the-top',
+  'move-video-to-the-bottom',
+  'pause-player',
+  'remove-from-playlist'
+])
 
 const { locale, t } = useI18n()
 const route = useRoute()
@@ -480,6 +487,25 @@ const dropdownOptions = computed(() => {
         }]
       : [],
   ]
+  if (inUserPlaylist.value) {
+    if (props.canMoveVideoUp || props.canMoveVideoDown) {
+      options.push({
+        type: 'divider'
+      })
+    }
+    if (props.canMoveVideoUp) {
+      options.push({
+        label: t('User Playlists.Move Video to the Top'),
+        value: 'moveVideoTop'
+      })
+    }
+    if (props.canMoveVideoDown) {
+      options.push({
+        label: t('User Playlists.Move Video to the Bottom'),
+        value: 'moveVideoBottom'
+      })
+    }
+  }
   if (!hideSharingActions.value) {
     options.push(
       {
@@ -612,6 +638,12 @@ function handleOptionsClick(option) {
       showToast(wasPinned ? 'Video has been unpinned' : 'Video has been pinned')
       break
     }
+    case 'moveVideoTop':
+      moveVideoToTheTop()
+      break
+    case 'moveVideoBottom':
+      moveVideoToTheBottom()
+      break
     case 'copyYoutube': {
       let videoUrl = `https://youtu.be/${id.value}`
 
@@ -1048,6 +1080,14 @@ function removeFromWatched() {
   store.dispatch('removeFromHistory', id.value)
 
   showToast(t('Video.Video has been removed from your history'))
+}
+
+function moveVideoToTheTop() {
+  emit('move-video-to-the-top', id.value, props.playlistItemId)
+}
+
+function moveVideoToTheBottom() {
+  emit('move-video-to-the-bottom', id.value, props.playlistItemId)
 }
 
 function togglePlaylistPrompt() {

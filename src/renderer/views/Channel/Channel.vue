@@ -228,7 +228,7 @@
           </p>
         </FtFlexBox>
         <FtAutoLoadNextPageWrapper
-          v-if="showFetchMoreButton"
+          v-if="showFetchMoreButton && !isFetchMoreLoading"
           @load-next-page="handleFetchMore"
         >
           <div
@@ -236,8 +236,7 @@
             role="button"
             tabindex="0"
             @click="handleFetchMore"
-            @keydown.space.prevent="handleFetchMore"
-            @keydown.enter.prevent="handleFetchMore"
+            @keydown.enter.space.prevent="handleFetchMore"
           >
             <FontAwesomeIcon :icon="['fas', 'search']" /> {{ $t("Search Filters.Fetch more results") }}
           </div>
@@ -337,6 +336,7 @@ let mayContainContentFromOtherChannels = false
 const isLoading = ref(true)
 const isElementListLoading = ref(false)
 const isSearchTabLoading = ref(false)
+const isFetchMoreLoading = ref(false)
 const currentTab = ref('videos')
 
 const isCurrentTabLoading = computed(() => {
@@ -2242,74 +2242,80 @@ const showFetchMoreButton = computed(() => {
   }
 })
 
-function handleFetchMore() {
+async function handleFetchMore() {
+  if (isFetchMoreLoading.value) return
+
+  isFetchMoreLoading.value = true
+
   switch (currentTab.value) {
     case 'videos':
       if (process.env.SUPPORTS_LOCAL_API && apiUsed === 'local') {
-        getChannelVideosLocalMore()
+        await getChannelVideosLocalMore()
       } else {
-        channelInvidiousVideos()
+        await channelInvidiousVideos()
       }
       break
     case 'shorts':
       if (process.env.SUPPORTS_LOCAL_API && apiUsed === 'local') {
-        getChannelShortsLocalMore()
+        await getChannelShortsLocalMore()
       } else {
-        channelInvidiousShorts()
+        await channelInvidiousShorts()
       }
       break
     case 'live':
       if (process.env.SUPPORTS_LOCAL_API && apiUsed === 'local') {
-        getChannelLiveLocalMore()
+        await getChannelLiveLocalMore()
       } else {
-        channelInvidiousLive()
+        await channelInvidiousLive()
       }
       break
     case 'releases':
       if (process.env.SUPPORTS_LOCAL_API && apiUsed === 'local') {
-        getChannelReleasesLocalMore()
+        await getChannelReleasesLocalMore()
       } else {
-        channelInvidiousReleasesMore()
+        await channelInvidiousReleasesMore()
       }
       break
     case 'podcasts':
       if (process.env.SUPPORTS_LOCAL_API && apiUsed === 'local') {
-        getChannelPodcastsLocalMore()
+        await getChannelPodcastsLocalMore()
       } else {
-        channelInvidiousPodcastsMore()
+        await channelInvidiousPodcastsMore()
       }
       break
     case 'courses':
       if (process.env.SUPPORTS_LOCAL_API && apiUsed === 'local') {
-        getChannelCoursesLocalMore()
+        await getChannelCoursesLocalMore()
       } else {
-        channelInvidiousCoursesMore()
+        await channelInvidiousCoursesMore()
       }
       break
     case 'playlists':
       if (process.env.SUPPORTS_LOCAL_API && apiUsed === 'local') {
-        getChannelPlaylistsLocalMore()
+        await getChannelPlaylistsLocalMore()
       } else {
-        getPlaylistsInvidiousMore()
+        await getPlaylistsInvidiousMore()
       }
       break
     case 'search':
       if (process.env.SUPPORTS_LOCAL_API && apiUsed === 'local') {
-        searchChannelLocal()
+        await searchChannelLocal()
       } else {
-        searchChannelInvidious()
+        await searchChannelInvidious()
       }
       break
     case 'community':
       if (process.env.SUPPORTS_LOCAL_API && apiUsed === 'local') {
-        getCommunityPostsLocalMore()
+        await getCommunityPostsLocalMore()
       } else {
-        getCommunityPostsInvidious()
+        await getCommunityPostsInvidious()
       }
       break
     default:
       console.error(currentTab.value)
   }
+
+  isFetchMoreLoading.value = false
 }
 
 function changeTab(tab) {

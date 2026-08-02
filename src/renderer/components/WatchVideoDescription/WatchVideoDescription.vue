@@ -27,8 +27,7 @@
       :class="{ descriptionStatus: true, open: showFullDescription }"      role="button"
       tabindex="0"
       @click="collapseDescription"
-      @keydown.space.prevent="collapseDescription"
-      @keydown.enter.prevent="collapseDescription"
+      @keydown.enter.space.prevent="collapseDescription"
     >
       {{ $t("Description.Collapse Description") }}
     </span>
