@@ -15,6 +15,7 @@
   background-color: rgb(0 0 0 / 50%);
   color: #fff;
   cursor: pointer;
+  z-index: 1;
 }
 
 :deep(.playerFullscreenPlaylistButton:dir(rtl)) {

@@ -12,9 +12,10 @@
   background-color: #373737;
 }
 
-.playlistOverlayItem :deep(.videoThumbnail) {
+.playlistOverlayItem :deep(.videoThumbnail),
+.playlistOverlayItem :deep(.thumbnailImage) {
   width: 100px;
-  height: 56.25px;
+  height: 56.25px !important;
 }
 
 .playlistOverlayItem :deep(.infoLine) {
