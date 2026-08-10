@@ -168,6 +168,7 @@ export default defineComponent({
       // This should never be saved into history
       /** @type {number|null} */
       oneTimeTimestamp: null,
+      oneTimeStartPaused: false,
       playNextTimeout: null,
       playNextCountDownIntervalId: null,
       blockVideoAutoplay: false,
@@ -1342,6 +1343,7 @@ export default defineComponent({
     handleVideoLoaded: function () {
       // Only used one time = remove after use
       this.oneTimeTimestamp = null
+      this.oneTimeStartPaused = false
 
       // will trigger again if you switch formats or change legacy quality
       // Check isUpcoming to avoid marking upcoming videos as watched if the user has only watched the trailer
@@ -2038,6 +2040,7 @@ export default defineComponent({
       if (timestamp > 0) {
         this.oneTimeTimestamp = timestamp
       }
+      this.oneTimeStartPaused = this.$refs.player?.isPaused() ?? false
       await this.reloadStream()
     },
 

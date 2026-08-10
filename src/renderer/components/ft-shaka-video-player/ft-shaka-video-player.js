@@ -199,6 +199,10 @@ export default defineComponent({
       type: Boolean,
       default: false
     },
+    startPaused: {
+      type: Boolean,
+      default: false
+    },
     currentPlaybackRate: {
       type: Number,
       default: 1

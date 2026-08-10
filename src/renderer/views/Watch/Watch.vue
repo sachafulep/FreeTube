@@ -49,6 +49,7 @@
           :start-in-fullscreen="startNextVideoInFullscreen"
           :start-in-fullwindow="startNextVideoInFullwindow"
           :start-in-pip="startNextVideoInPip"
+          :start-paused="oneTimeStartPaused"
           :current-playback-rate="currentPlaybackRate"
           :delay-load-until-unix="adEndTimeUnixMs"
           class="videoPlayer"
