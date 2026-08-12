@@ -14,6 +14,8 @@ import {
   ABOUT_BITCOIN_ADDRESS,
   KeyboardShortcuts,
   SEARCH_CHAR_LIMIT,
+  LIGHT_BASE_THEMES,
+  DARK_BASE_THEMES,
 } from '../constants'
 import * as baseHandlers from '../datastores/handlers/base'
 import { extractExpiryTimestamp, ImageCache } from './ImageCache'
@@ -671,6 +673,16 @@ function runApp() {
         requestHeaders['Sec-Fetch-Site'] = 'same-origin'
         requestHeaders['Sec-Fetch-Mode'] = 'same-origin'
         requestHeaders['X-Youtube-Bootstrap-Logged-In'] = 'false'
+      } else if (url.startsWith('https://www.youtube.com/watch')) {
+        delete requestHeaders.Referer
+        delete requestHeaders.Origin
+        requestHeaders['Sec-Fetch-Dest'] = 'document'
+        requestHeaders['Sec-Fetch-Mode'] = 'navigate'
+        requestHeaders['Sec-Fetch-Site'] = 'none'
+        requestHeaders['Sec-Fetch-User'] = '?1'
+        requestHeaders.Cookie = requestHeaders.Cookie
+          ? requestHeaders.Cookie + `;PREF=tz=${Intl.DateTimeFormat().resolvedOptions().timeZone.replace('/', '.')}`
+          : ''
       } else if (url === 'https://www.youtube.com/sw.js_data' || url.startsWith('https://www.youtube.com/api/timedtext')) {
         requestHeaders.Referer = 'https://www.youtube.com/sw.js'
         requestHeaders['Sec-Fetch-Site'] = 'same-origin'
@@ -704,11 +716,21 @@ function runApp() {
     })
 
     // when we create a real session on the watch page, youtube returns tracking cookies, which we definitely don't want
-    const trackingCookieRequestFilter = { urls: ['https://www.youtube.com/sw.js_data', 'https://www.youtube.com/iframe_api'] }
+    const trackingCookieRequestFilter = {
+      urls: [
+        'https://www.youtube.com/sw.js_data',
+        'https://www.youtube.com/iframe_api',
+        'https://www.youtube.com/watch?*'
+      ]
+    }
 
     session.defaultSession.webRequest.onHeadersReceived(trackingCookieRequestFilter, ({ responseHeaders }, callback) => {
       if (responseHeaders) {
         delete responseHeaders['set-cookie']
+        delete responseHeaders['content-security-policy']
+        delete responseHeaders['cross-origin-opener-policy']
+        delete responseHeaders['report-to']
+        delete responseHeaders['reporting-endpoints']
       }
 
       // eslint-disable-next-line n/no-callback-literal
@@ -815,6 +837,14 @@ function runApp() {
 
       // --- end of `if experimentsDisableDiskCache` ---
     }
+
+    try {
+      const baseTheme = await baseHandlers.settings._findOne('baseTheme')
+
+      if (baseTheme?.value) {
+        updateThemeSource(baseTheme.value)
+      }
+    } catch {}
 
     await createWindow()
 
@@ -1054,7 +1084,6 @@ function runApp() {
       // It will be shown later when ready via `ready-to-show` event
       show: showWindowNow,
       backgroundColor: windowBackground,
-      darkTheme: nativeTheme.shouldUseDarkColors,
       icon: process.env.NODE_ENV === 'development'
         ? path.join(__dirname, '../../_icons/iconColor.png')
         : path.join(__dirname, '../_icons/iconColor.png'),
@@ -1364,9 +1393,9 @@ function runApp() {
     })
   })
 
-  ipcMain.handle(IpcChannels.GENERATE_PO_TOKEN, (event, videoId, context) => {
+  ipcMain.handle(IpcChannels.GENERATE_PO_TOKEN, (event, videoId, context, initialAttestationData, ytConfig) => {
     if (isFreeTubeUrl(event.senderFrame.url)) {
-      return generatePoToken(videoId, context, proxyUrl)
+      return generatePoToken(videoId, context, initialAttestationData, ytConfig, proxyUrl)
     }
   })
 
@@ -1713,6 +1742,14 @@ function runApp() {
     }
   })
 
+  function updateThemeSource(baseTheme) {
+    nativeTheme.themeSource = LIGHT_BASE_THEMES.includes(baseTheme)
+      ? 'light'
+      : (DARK_BASE_THEMES.includes(baseTheme)
+          ? 'dark'
+          : 'system')
+  }
+
   // ************************************************* //
   // DB related IPC calls
   // *********** //
@@ -1761,6 +1798,9 @@ function runApp() {
                 trayOnMinimize = data.value
                 if (!trayOnMinimize) { showHiddenWindows() }
               }
+              break
+            case 'baseTheme':
+              updateThemeSource(data.value)
               break
 
             default:
