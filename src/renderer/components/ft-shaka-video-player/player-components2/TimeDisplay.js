@@ -38,6 +38,7 @@ export class TimeDisplay extends shaka.ui.Element {
     updateDuration()
 
     this.eventManager.listen(video, 'timeupdate', updateTime)
+    this.eventManager.listen(video, 'seeking', updateTime)
     this.eventManager.listen(video, 'durationchange', updateDuration)
     this.eventManager.listen(player, 'trackschanged', updateDuration)
   }
